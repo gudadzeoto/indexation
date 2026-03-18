@@ -52,7 +52,7 @@ const Header = ({ language = "GE", setLanguage = () => {} }) => {
         >
           {language === "GE"
             ? "ფასთა ინდექსაციის კალკულატორი"
-            : "Consumer Price Index Calculator"}
+            : "Price indexation calculator"}
         </h1>
 
         {/* Icons & Language Switch */}

@@ -18,15 +18,15 @@ function App() {
           className="w-full flex justify-center"
           style={{ backgroundColor: "var(--app-bg)" }}
         >
-          <div className="w-full max-w-[1200px] px-4 md:px-8">
+          <div className="w-full max-w-[1200px]">
             <Header
               language={language}
               setLanguage={setLanguage}
             />
           </div>
         </div>
-        <div className="w-full flex justify-center">
-          <div className="w-full max-w-[1200px] px-4 md:px-8">
+        <div className="w-full flex justify-center" style={{ marginTop: 0 }}>
+          <div className="w-full max-w-[1200px]">
             <Main
               language={language}
               setLanguage={setLanguage}

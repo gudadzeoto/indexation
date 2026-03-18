@@ -4,11 +4,7 @@ const sql = require("mssql");
 const config = require("./dbConfig");
 
 const personaltitleRoute = require("./routes/personaltitle");
-const infogroupsRoute = require("./routes/infogroups");
-const subgroupindexRoute = require("./routes/subgroupindex");
-const grouppricesRoute = require("./routes/groupprices");
-const subgroupweightsRoute = require("./routes/subgroupweights");
-const ttsRoute = require("./routes/tts");
+
 
 const app = express();
 const PORT = process.env.PORT;
@@ -16,7 +12,7 @@ const PORT = process.env.PORT;
 // ✅ IMPORTANT — allow your frontend domain
 const corsOptions = {
   origin: [
-    "https://personalinflation.geostat.ge",
+    "https://indexation.geostat.ge",
     "http://localhost:3000",
     "http://localhost:5173"
   ],
@@ -31,11 +27,6 @@ app.use(express.json());
 
 // routes
 app.use("/api/personaltitle", personaltitleRoute);
-app.use("/api/infogroups", infogroupsRoute);
-app.use("/api/subgroupindex", subgroupindexRoute);
-app.use("/api/groupprices", grouppricesRoute);
-app.use("/api/subgroupweights", subgroupweightsRoute);
-app.use("/api/tts", ttsRoute);
 
 // health check with database status
 app.get("/", async (req, res) => {
@@ -43,7 +34,7 @@ app.get("/", async (req, res) => {
     const pool = await sql.connect(config);
     await pool.request().query("SELECT 1");
     pool.close();
-    
+
     res.json({
       status: "OK",
       message: "API working",
