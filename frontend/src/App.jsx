@@ -1,33 +1,41 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "./assets/vite.svg";
-import heroImg from "./assets/hero.png";
+import React, { useState } from "react";
+import Header from "./components/Header";
+import Main from "./components/Main";
+import Footer from "./components/footer";
+import ErrorBoundary from "./components/ErrorBoundary";
 import "./App.scss";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [language, setLanguage] = useState("GE");
 
   return (
-    <>
-      <div class="flex flex-col items-center p-7 rounded-2xl">
-        <div>
-          <img
-            class="size-48 shadow-xl rounded-md"
-            alt=""
-            src="/img/cover.png"
-          />
+    <ErrorBoundary language={language}>
+      <div
+        className="min-h-screen flex flex-col"
+        style={{ backgroundColor: "var(--app-bg)", color: "var(--app-text)" }}
+      >
+        <div
+          className="w-full flex justify-center"
+          style={{ backgroundColor: "var(--app-bg)" }}
+        >
+          <div className="w-full max-w-[1200px] px-4 md:px-8">
+            <Header
+              language={language}
+              setLanguage={setLanguage}
+            />
+          </div>
         </div>
-        <div class="flex">
-          <span>Class Warfare</span>
-          <span>The Anti-Patterns</span>
-          <span class="flex">
-            <span>No. 4</span>
-            <span>·</span>
-            <span>2025</span>
-          </span>
+        <div className="w-full flex justify-center">
+          <div className="w-full max-w-[1200px] px-4 md:px-8">
+            <Main
+              language={language}
+              setLanguage={setLanguage}
+            />
+          </div>
         </div>
+        <Footer language={language} setLanguage={setLanguage}></Footer>
       </div>
-    </>
+    </ErrorBoundary>
   );
 }
 
