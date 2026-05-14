@@ -56,7 +56,7 @@ const QuestionTwoDocumentGeneration = ({
   return (
     <>
       <div className="mt-4">
-        <label className="flex cursor-pointer items-center gap-2">
+        <label className="flex cursor-pointer items-start gap-2 sm:items-center">
           <input
             type="checkbox"
             checked={confirmed}
@@ -75,7 +75,7 @@ const QuestionTwoDocumentGeneration = ({
           type="button"
           onClick={handleGenerateDocument}
           disabled={!confirmed}
-          className="bpg_mrgvlovani_caps mt-4 inline-flex items-center gap-2 rounded-md border border-[#01389c] px-4 py-2 text-sm font-semibold text-[#01389c] transition-colors hover:bg-[#01389c] hover:text-white disabled:cursor-not-allowed disabled:border-gray-300 disabled:text-gray-400 disabled:hover:bg-transparent cursor-pointer"
+          className="bpg_mrgvlovani_caps mt-4 inline-flex w-full items-center justify-center gap-2 rounded-md border border-[#01389c] px-4 py-2 text-sm font-semibold text-[#01389c] transition-colors hover:bg-[#01389c] hover:text-white disabled:cursor-not-allowed disabled:border-gray-300 disabled:text-gray-400 disabled:hover:bg-transparent cursor-pointer sm:w-auto"
         >
           <img src={docs} alt="google docs" className="h-5 w-5" />
           {t("დოკუმენტის დაგენერირება", "Generate document")}

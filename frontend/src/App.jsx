@@ -33,7 +33,7 @@ function App() {
           className="w-full flex justify-center"
           style={{ backgroundColor: "var(--app-bg)" }}
         >
-          <div className="w-full max-w-[1200px]">
+          <div className="w-full max-w-[1200px] px-4 md:px-8">
             <Header
               language={language}
               setLanguage={setLanguage}
@@ -43,7 +43,7 @@ function App() {
           </div>
         </div>
         <div className="w-full flex justify-center" style={{ marginTop: 0 }}>
-          <div className="w-full max-w-[1200px]">
+          <div className="w-full max-w-[1200px] px-4 pb-6 md:px-8">
             {renderQuestionnaire()}
           </div>
         </div>

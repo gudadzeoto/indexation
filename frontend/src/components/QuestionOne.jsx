@@ -468,7 +468,7 @@ const QuestionOne = ({
 
   return (
     <section className="w-full border" style={{ borderColor: "#01389c" }}>
-      <div className="px-50 py-6">
+      <div className="px-4 py-6 sm:px-6 lg:px-10 xl:px-12">
         <div className="mb-6 py-4">
           <h1 className="bpg_mrgvlovani_caps mt-2 text-left text-[16px] font-bold text-[#0f172a]">
             {t(
@@ -486,9 +486,9 @@ const QuestionOne = ({
         </p>
 
         <div className="mt-3 space-y-2">
-          <div className="flex items-start gap-4">
+          <div className="flex flex-col gap-3 md:flex-row md:items-start md:gap-4">
             <div
-              className="flex w-72 min-w-[18rem] items-center overflow-hidden rounded-md transition-colors duration-300"
+              className="flex w-full max-w-md items-center overflow-hidden rounded-md transition-colors duration-300 md:w-72 md:min-w-[18rem]"
               style={{
                 border: searchError
                   ? "1px solid #ef4444"
@@ -537,8 +537,8 @@ const QuestionOne = ({
               </button>
             </div>
             {companyData && (
-              <div className="bpg_mrgvlovani_caps flex w-fit items-center overflow-hidden rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-sm">
-                <p className="whitespace-nowrap">
+              <div className="bpg_mrgvlovani_caps flex w-full items-center overflow-hidden rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-sm md:w-fit md:max-w-full">
+                <p className="break-words md:whitespace-nowrap">
                   <span className="font-semibold">
                     {t("დასახელება:", "Name:")}
                   </span>{" "}
@@ -566,8 +566,8 @@ const QuestionOne = ({
           {t("ხელშეკრულების ნომერი", "Contract number")}
         </p>
         <div className="mt-3">
-          <div className="flex items-start gap-4">
-            <div className="flex w-72 items-center overflow-hidden rounded-md border border-gray-300">
+          <div className="flex flex-col gap-3 md:flex-row md:items-start md:gap-4">
+            <div className="flex w-full max-w-md items-center overflow-hidden rounded-md border border-gray-300 md:w-72">
               <input
                 type="text"
                 value={contractNumber}
@@ -577,8 +577,8 @@ const QuestionOne = ({
               />
             </div>
             {contractNumber && (
-              <div className="bpg_mrgvlovani_caps flex w-fit items-center overflow-hidden rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-sm">
-                <p className="whitespace-nowrap">
+              <div className="bpg_mrgvlovani_caps flex w-full items-center overflow-hidden rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-sm md:w-fit md:max-w-full">
+                <p className="break-words md:whitespace-nowrap">
                   <span className="font-semibold">
                     {t("ნომერი:", "Number:")}
                   </span>{" "}
@@ -593,8 +593,8 @@ const QuestionOne = ({
           {t("დამკვეთი", "Ordering party")}
         </p>
         <div className="mt-3">
-          <div className="flex items-start gap-4">
-            <div className="flex w-72 items-center overflow-hidden rounded-md border border-gray-300">
+          <div className="flex flex-col gap-3 md:flex-row md:items-start md:gap-4">
+            <div className="flex w-full max-w-md items-center overflow-hidden rounded-md border border-gray-300 md:w-72">
               <input
                 type="text"
                 value={customer}
@@ -604,8 +604,8 @@ const QuestionOne = ({
               />
             </div>
             {customer && (
-              <div className="bpg_mrgvlovani_caps flex w-fit items-center overflow-hidden rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-sm">
-                <p className="whitespace-nowrap">
+              <div className="bpg_mrgvlovani_caps flex w-full items-center overflow-hidden rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-sm md:w-fit md:max-w-full">
+                <p className="break-words md:whitespace-nowrap">
                   <span className="font-semibold">
                     {t("დამკვეთი:", "Ordering party:")}
                   </span>{" "}
@@ -681,7 +681,7 @@ const QuestionOne = ({
                 "Price indexation does not cover the works performed and subsequently reimbursed within the framework of the tenders announced from May 1, 2022.",
               )}
             </p>
-            <div className="mt-4 max-w-[320px]">
+            <div className="mt-4 w-full max-w-[320px]">
               <div className="group flex items-center gap-2 rounded-xl border border-[#bfd6ff] bg-white px-3 py-2 transition-all duration-200 focus-within:border-[#01389c] focus-within:ring-2 focus-within:ring-[#d8e7ff]">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -719,7 +719,7 @@ const QuestionOne = ({
         )}
 
         {showBasePeriod && baseMonthText && (
-          <div className="bpg_mrgvlovani_caps mt-5 inline-flex items-center rounded-md border border-[#bfd6ff] bg-[#eef5ff] px-3 py-2 text-sm text-[#01389c]">
+          <div className="bpg_mrgvlovani_caps mt-5 inline-flex max-w-full items-center rounded-md border border-[#bfd6ff] bg-[#eef5ff] px-3 py-2 text-sm leading-5 text-[#01389c]">
             {`${t("საბაზო თვე", "Base Month")} - ${baseMonthText}`}
           </div>
         )}
@@ -775,16 +775,218 @@ const QuestionOne = ({
         )}
 
         {!baseSectionOnly && showBasePeriod && (basePeriod === "1" || basePeriod === "2") && (
-          <div className="mt-8 -mx-24">
+          <div className="mt-8">
             <p className="bpg_mrgvlovani_caps mb-4 font-bold">
               {t(
                 "4. ინფორმაცია შესრულებული სამუშაოს შესახებ",
                 "4. Information about the performed work",
               )}
             </p>
-            <div className="w-full">
+            <div className="space-y-4 md:hidden">
+              {tableRows.map((row, index) => (
+                <div
+                  key={row.id}
+                  className="rounded-xl border border-[#d7e3ff] bg-[#f8fbff] p-4 shadow-sm"
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <p className="bpg_mrgvlovani_caps text-sm font-bold text-[#01389c]">
+                      {`${t("რიგი", "Row")} ${row.id}`}
+                    </p>
+                    <div className="flex items-center gap-2">
+                      {tableRows.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => removeTableRow(row.id)}
+                          title={t("წაშლა", "Remove row")}
+                          className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg border border-red-500 text-red-600 hover:bg-red-500 hover:text-white"
+                        >
+                          <img
+                            src={removeIcon}
+                            alt={t("წაშლა", "Remove")}
+                            className="h-4 w-4"
+                          />
+                        </button>
+                      )}
+                      {index === tableRows.length - 1 && (
+                        <button
+                          type="button"
+                          onClick={addTableRow}
+                          title={t("დამატება", "Add row")}
+                          className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg border border-[#01389c] text-[#01389c] hover:bg-[#01389c] hover:text-white"
+                        >
+                          <img
+                            src={plusIcon}
+                            alt={t("დამატება", "Add")}
+                            className="h-4 w-4"
+                          />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    <div>
+                      <label className="bpg_mrgvlovani_caps mb-1 block text-xs font-semibold text-[#01389c]">
+                        {t("წელი", "Year")}
+                      </label>
+                      <select
+                        value={row.year}
+                        onChange={(e) =>
+                          updateTableRow(row.id, "year", e.target.value)
+                        }
+                        className="bpg_mrgvlovani_caps h-10 w-full rounded-md border border-gray-300 px-3 text-sm outline-none focus:border-[#01389c]"
+                      >
+                        <option value="" disabled>
+                          {t("წელი", "Year")}
+                        </option>
+                        {["2022", "2023", "2024", "2025", "2026"].map((y) => (
+                          <option key={y} value={y}>
+                            {y}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="bpg_mrgvlovani_caps mb-1 block text-xs font-semibold text-[#01389c]">
+                        {t("თვე", "Month")}
+                      </label>
+                      <select
+                        value={row.month}
+                        onChange={(e) =>
+                          updateTableRow(row.id, "month", e.target.value)
+                        }
+                        className="bpg_mrgvlovani_caps h-10 w-full rounded-md border border-gray-300 px-3 text-sm outline-none focus:border-[#01389c]"
+                      >
+                        <option value="" disabled>
+                          {t("თვე", "Month")}
+                        </option>
+                        <option value="1">{t("იანვარი", "January")}</option>
+                        <option value="2">{t("თებერვალი", "February")}</option>
+                        <option value="3">{t("მარტი", "March")}</option>
+                        <option value="4">{t("აპრილი", "April")}</option>
+                        <option value="5">{t("მაისი", "May")}</option>
+                        <option value="6">{t("ივნისი", "June")}</option>
+                        <option value="7">{t("ივლისი", "July")}</option>
+                        <option value="8">{t("აგვისტო", "August")}</option>
+                        <option value="9">{t("სექტემბერი", "September")}</option>
+                        <option value="10">{t("ოქტომბერი", "October")}</option>
+                        <option value="11">{t("ნოემბერი", "November")}</option>
+                        <option value="12">{t("დეკემბერი", "December")}</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="bpg_mrgvlovani_caps mb-1 block text-xs font-semibold text-[#01389c]">
+                        {t("რიცხვი", "Date")}
+                      </label>
+                      <select
+                        value={row.day}
+                        onChange={(e) =>
+                          updateTableRow(row.id, "day", e.target.value)
+                        }
+                        className="bpg_mrgvlovani_caps h-10 w-full rounded-md border border-gray-300 px-3 text-sm outline-none focus:border-[#01389c]"
+                      >
+                        <option value="" disabled>
+                          {t("რიცხვი", "Date")}
+                        </option>
+                        {getDaysInMonth(row.year, row.month).map((d) => (
+                          <option key={d} value={d}>
+                            {d}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="bpg_mrgvlovani_caps mb-1 block text-xs font-semibold text-[#01389c]">
+                        {t(
+                          "შესრულებული სამუშაოს ღირებულება, ლარი",
+                          "Cost of work performed, GEL",
+                        )}
+                      </label>
+                      <input
+                        type="number"
+                        value={row.cost}
+                        onChange={(e) =>
+                          updateTableRow(row.id, "cost", e.target.value)
+                        }
+                        className="h-10 w-full rounded-md border border-gray-300 px-3 text-sm outline-none focus:border-[#01389c]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="bpg_mrgvlovani_caps mb-1 block text-xs font-semibold text-[#01389c]">
+                        {t("საინდექსაციო თანხა, ლარი", "Indexation amount, GEL")}
+                      </label>
+                      <input
+                        type="text"
+                        value={row.money}
+                        readOnly
+                        className="h-10 w-full rounded-md border border-gray-200 bg-gray-50 px-3 text-sm outline-none"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="bpg_mrgvlovani_caps mb-1 block text-xs font-semibold text-[#01389c]">
+                        {t(
+                          "მშენებლობის ღირებულების ინდექსი საბაზო პერიოდთან შედარებით",
+                          "Construction Cost Index compared to the base period",
+                        )}
+                      </label>
+                      <input
+                        type="text"
+                        value={row.index}
+                        readOnly
+                        className="h-10 w-full rounded-md border border-gray-200 bg-gray-50 px-3 text-sm outline-none"
+                      />
+                    </div>
+
+                    <div className="sm:col-span-2">
+                      <label className="bpg_mrgvlovani_caps mb-1 block text-xs font-semibold text-[#01389c]">
+                        {t(
+                          "ფასთა ინდექსაციის შედეგად მიღებული თანხა, ლარი",
+                          "Reimbursement amount, GEL",
+                        )}
+                      </label>
+                      <input
+                        type="text"
+                        value={row.result}
+                        readOnly
+                        className="h-10 w-full rounded-md border border-gray-200 bg-gray-50 px-3 text-sm outline-none"
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+
+              <div className="rounded-xl border border-[#d7e3ff] bg-white p-4">
+                <p className="bpg_mrgvlovani_caps text-xs font-bold text-[#334155]">
+                  {t(
+                    "** მიმწოდებელი პასუხისმგებელია მის მიერ შეყვანილი ინფორმაციის სისწორეზე.",
+                    "** The supplier is responsible for the accuracy of the information entered.",
+                  )}
+                </p>
+                <p className="bpg_mrgvlovani_caps mt-2 text-xs font-bold text-[#334155]">
+                  {t(
+                    "** შემსყიდველი ვალდებულია ანგარიშსწორებამდე გადაამოწმოს მიმწოდებლის მიერ შევსებული მონაცემების სისწორე",
+                    "** The purchaser is obliged to verify the accuracy of the data entered by the supplier before settlement",
+                  )}
+                </p>
+                <div className="mt-4 flex items-center justify-between rounded-lg border border-[#d7e3ff] bg-[#f8fbff] px-4 py-3">
+                  <span className="bpg_mrgvlovani_caps text-sm font-bold text-[#01389c]">
+                    {t("სულ:", "Total:")}
+                  </span>
+                  <span className="bpg_mrgvlovani_caps text-base font-bold text-[#01389c]">
+                    {rowTotal}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className="hidden w-full overflow-x-auto md:block">
               <table
-                className="w-full table-fixed border-collapse text-xs md:text-sm"
+                className="min-w-[860px] w-full table-fixed border-collapse text-xs md:text-sm"
                 style={{ borderColor: "#01389c" }}
               >
                 <thead>
@@ -1036,7 +1238,7 @@ const QuestionOne = ({
               </table>
             </div>
             <div className="mt-4">
-              <label className="flex cursor-pointer items-center gap-2">
+              <label className="flex cursor-pointer items-start gap-2 sm:items-center">
                 <input
                   type="checkbox"
                   checked={confirmed}
@@ -1084,7 +1286,7 @@ const QuestionOne = ({
                   setIsDocModalOpen(true);
                 }}
                 disabled={!confirmed}
-                className="bpg_mrgvlovani_caps mt-4 inline-flex items-center gap-2 rounded-md border border-[#01389c] px-4 py-2 text-sm font-semibold text-[#01389c] transition-colors hover:bg-[#01389c] hover:text-white disabled:cursor-not-allowed disabled:border-gray-300 disabled:text-gray-400 disabled:hover:bg-transparent cursor-pointer"
+                className="bpg_mrgvlovani_caps mt-4 inline-flex w-full items-center justify-center gap-2 rounded-md border border-[#01389c] px-4 py-2 text-sm font-semibold text-[#01389c] transition-colors hover:bg-[#01389c] hover:text-white disabled:cursor-not-allowed disabled:border-gray-300 disabled:text-gray-400 disabled:hover:bg-transparent cursor-pointer sm:w-auto"
               >
                 <img src={docs} alt="google docs" className="h-5 w-5" />
                 {t("დოკუმენტის დაგენერირება", "Generate document")}
@@ -1113,7 +1315,7 @@ const QuestionOne = ({
         }}
       />
 
-      <div className="flex w-full items-center justify-end gap-2 bg-[#01389c] px-4 py-4 text-right text-sm font-medium text-white">
+      <div className="flex w-full flex-col items-start gap-3 bg-[#01389c] px-4 py-4 text-left text-sm font-medium text-white sm:flex-row sm:items-center sm:justify-end sm:text-right">
         <span className="bpg_mrgvlovani_caps">
           {t("გაანგარიშების ინსტრუქცია", "Calculation Instruction")}
         </span>

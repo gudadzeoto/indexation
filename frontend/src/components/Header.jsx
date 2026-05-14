@@ -33,7 +33,7 @@ const Header = ({
         padding: "15px 15px 22px",
       }}
     >
-      <div className="w-full max-w-[1200px] px-4 py-4 md:px-8">
+      <div className="w-full py-4">
         <div className="flex flex-col gap-6 xl:flex-row xl:items-center xl:justify-between">
         {/* Logo */}
           <div className="flex items-center justify-start">
