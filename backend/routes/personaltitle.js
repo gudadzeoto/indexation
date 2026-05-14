@@ -7,27 +7,28 @@ const router = express.Router();
 // GET by ?code= from Hst_FullName
 router.get("/", async (req, res) => {
   try {
-    const { code } = req.query;
+    const rawCode = typeof req.query.code === "string" ? req.query.code : "";
+    const normalizedCode = rawCode.replace(/\D/g, "").trim();
     let pool = await sql.connect(config);
     let request = pool.request();
     let query;
-    if (code) {
-      request.input("code", sql.NVarChar, code);
+    if (normalizedCode) {
+      request.input("code", sql.NVarChar, normalizedCode);
       query = `
         SELECT [Legal_Code], [Full_Name]
-        FROM [register].[dbo].[Hst_FullName]
-        WHERE [Legal_Code] = @code
+        FROM [${process.env.DB_NAME}].[dbo].[Hst_FullName]
+        WHERE REPLACE(REPLACE(LTRIM(RTRIM(CONVERT(NVARCHAR(50), [Legal_Code]))), ' ', ''), '-', '') = @code
       `;
     } else {
       query = `
         SELECT [Legal_Code], [Full_Name]
-        FROM [register].[dbo].[Hst_FullName]
+        FROM [${process.env.DB_NAME}].[dbo].[Hst_FullName]
       `;
     }
     let result = await request.query(query);
 
     if (result.recordset.length === 0) {
-      return res.status(404).send("No data found.");
+      return res.status(404).json({ message: "No data found." });
     }
 
     res.json(result.recordset);

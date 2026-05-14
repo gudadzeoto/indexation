@@ -4,18 +4,33 @@ const sql = require("mssql");
 const config = require("./dbConfig");
 
 const personaltitleRoute = require("./routes/personaltitle");
+const indexesRoute = require("./routes/indexes");
+const reportRoute = require("./routes/report");
+const report1Route = require("./routes/report1");
 
 
 const app = express();
 const PORT = process.env.PORT;
 
+const allowedOrigins = new Set([
+  "https://indexation.geostat.ge",
+  "http://localhost:3000",
+  "http://localhost:5173",
+  "http://localhost:5174",
+  "http://127.0.0.1:3000",
+  "http://127.0.0.1:5173",
+  "http://127.0.0.1:5174",
+]);
+
 // ✅ IMPORTANT — allow your frontend domain
 const corsOptions = {
-  origin: [
-    "https://indexation.geostat.ge",
-    "http://localhost:3000",
-    "http://localhost:5173"
-  ],
+  origin(origin, callback) {
+    if (!origin || allowedOrigins.has(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error(`CORS blocked for origin: ${origin}`));
+  },
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
@@ -27,6 +42,9 @@ app.use(express.json());
 
 // routes
 app.use("/api/personaltitle", personaltitleRoute);
+app.use("/api/indexes", indexesRoute);
+app.use("/api/report", reportRoute);
+app.use("/api/report1", report1Route);
 
 // health check with database status
 app.get("/", async (req, res) => {

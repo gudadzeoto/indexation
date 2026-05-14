@@ -1,12 +1,27 @@
 import React, { useState } from "react";
 import Header from "./components/Header";
-import Main from "./components/Main";
+import QuestionOne from "./components/QuestionOne";
+import QuestionTwo from "./components/QuestionTwo";
+import QuestionThree from "./components/QuestionThree";
 import Footer from "./components/footer";
 import ErrorBoundary from "./components/ErrorBoundary";
 import "./App.scss";
 
 function App() {
   const [language, setLanguage] = useState("GE");
+  const [activeQuestion, setActiveQuestion] = useState(1);
+
+  const renderQuestionnaire = () => {
+    if (activeQuestion === 2) {
+      return <QuestionTwo language={language} />;
+    }
+
+    if (activeQuestion === 3) {
+      return <QuestionThree language={language} />;
+    }
+
+    return <QuestionOne language={language} />;
+  };
 
   return (
     <ErrorBoundary language={language}>
@@ -22,15 +37,14 @@ function App() {
             <Header
               language={language}
               setLanguage={setLanguage}
+              activeQuestion={activeQuestion}
+              setActiveQuestion={setActiveQuestion}
             />
           </div>
         </div>
         <div className="w-full flex justify-center" style={{ marginTop: 0 }}>
           <div className="w-full max-w-[1200px]">
-            <Main
-              language={language}
-              setLanguage={setLanguage}
-            />
+            {renderQuestionnaire()}
           </div>
         </div>
         <Footer language={language} setLanguage={setLanguage}></Footer>
