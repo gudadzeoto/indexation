@@ -726,352 +726,119 @@ const QuestionOne = ({
 
         {canShowExtraSection && extraSection}
 
-        {!baseSectionOnly && showBasePeriod && (basePeriod === "1" || basePeriod === "2") && (
-          <div className="mt-6">
-            <p className="bpg_mrgvlovani_caps font-bold">
-              {t(
-                "3. ხელშეკრულების ფარგლებში 2022 წლის 1 მარტის მდგომარეობით შესრულებულია",
-                "3. Specify the level of performed work within the contract as of March 1, 2022",
-              )}
-            </p>
-            <div className="mt-4 flex flex-col gap-3">
-              <label className="flex cursor-pointer items-start gap-3">
-                <input
-                  type="radio"
-                  name="workCompletion-question-one"
-                  value="1"
-                  checked={workCompletion === "1"}
-                  onChange={(e) => setWorkCompletion(e.target.value)}
-                  className="mt-1 cursor-pointer accent-[#01389c]"
-                />
-                <span className="bpg_mrgvlovani_caps text-sm">
-                  {t(
-                    "სამუშაოების 10% ან/და ნაკლები",
-                    "10% and / or less of the works",
-                  )}
-                </span>
-              </label>
-              <label className="flex cursor-pointer items-start gap-3">
-                <input
-                  type="radio"
-                  name="workCompletion-question-one"
-                  value="2"
-                  checked={workCompletion === "2"}
-                  onChange={(e) => setWorkCompletion(e.target.value)}
-                  className="mt-1 cursor-pointer accent-[#01389c]"
-                />
-                <span className="bpg_mrgvlovani_caps text-sm">
-                  {t("სამუშაოების 10%-ზე მეტი", "More than 10% of the works")}
-                </span>
-              </label>
-              <p className="bpg_mrgvlovani_caps mt-2 text-xs italic text-gray-600">
+        {!baseSectionOnly &&
+          showBasePeriod &&
+          (basePeriod === "1" || basePeriod === "2") && (
+            <div className="mt-6">
+              <p className="bpg_mrgvlovani_caps font-bold">
                 {t(
-                  "1-ლი პუნქტის მონიშვნის შემთხვევაში ხელშეკრულებაზე ვრცელდება ფასთა ინდექსაციით გამოწვეული დადებითი ან უარყოფითი ბალანსი; მე-2 პუნქტის მონიშვნის შემთხვევაში ხელშეკრულებაზე ვრცელდება ფასთა ინდექსაციით გამოწვეული დადებითი ბალანსი.",
-                  "In case of selecting option 1, the positive or negative balance caused by the price indexation applies to the contract. In case of selecting option 2, the positive balance caused by the price indexation applies to the contract",
+                  "3. ხელშეკრულების ფარგლებში 2022 წლის 1 მარტის მდგომარეობით შესრულებულია",
+                  "3. Specify the level of performed work within the contract as of March 1, 2022",
                 )}
               </p>
-            </div>
-          </div>
-        )}
-
-        {!baseSectionOnly && showBasePeriod && (basePeriod === "1" || basePeriod === "2") && (
-          <div className="mt-8">
-            <p className="bpg_mrgvlovani_caps mb-4 font-bold">
-              {t(
-                "4. ინფორმაცია შესრულებული სამუშაოს შესახებ",
-                "4. Information about the performed work",
-              )}
-            </p>
-            <div className="space-y-4 md:hidden">
-              {tableRows.map((row, index) => (
-                <div
-                  key={row.id}
-                  className="rounded-xl border border-[#d7e3ff] bg-[#f8fbff] p-4 shadow-sm"
-                >
-                  <div className="flex items-center justify-between gap-3">
-                    <p className="bpg_mrgvlovani_caps text-sm font-bold text-[#01389c]">
-                      {`${t("რიგი", "Row")} ${row.id}`}
-                    </p>
-                    <div className="flex items-center gap-2">
-                      {tableRows.length > 1 && (
-                        <button
-                          type="button"
-                          onClick={() => removeTableRow(row.id)}
-                          title={t("წაშლა", "Remove row")}
-                          className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg border border-red-500 text-red-600 hover:bg-red-500 hover:text-white"
-                        >
-                          <img
-                            src={removeIcon}
-                            alt={t("წაშლა", "Remove")}
-                            className="h-4 w-4"
-                          />
-                        </button>
-                      )}
-                      {index === tableRows.length - 1 && (
-                        <button
-                          type="button"
-                          onClick={addTableRow}
-                          title={t("დამატება", "Add row")}
-                          className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg border border-[#01389c] text-[#01389c] hover:bg-[#01389c] hover:text-white"
-                        >
-                          <img
-                            src={plusIcon}
-                            alt={t("დამატება", "Add")}
-                            className="h-4 w-4"
-                          />
-                        </button>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
-                    <div>
-                      <label className="bpg_mrgvlovani_caps mb-1 block text-xs font-semibold text-[#01389c]">
-                        {t("წელი", "Year")}
-                      </label>
-                      <select
-                        value={row.year}
-                        onChange={(e) =>
-                          updateTableRow(row.id, "year", e.target.value)
-                        }
-                        className="bpg_mrgvlovani_caps h-10 w-full rounded-md border border-gray-300 px-3 text-sm outline-none focus:border-[#01389c]"
-                      >
-                        <option value="" disabled>
-                          {t("წელი", "Year")}
-                        </option>
-                        {["2022", "2023", "2024", "2025", "2026"].map((y) => (
-                          <option key={y} value={y}>
-                            {y}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="bpg_mrgvlovani_caps mb-1 block text-xs font-semibold text-[#01389c]">
-                        {t("თვე", "Month")}
-                      </label>
-                      <select
-                        value={row.month}
-                        onChange={(e) =>
-                          updateTableRow(row.id, "month", e.target.value)
-                        }
-                        className="bpg_mrgvlovani_caps h-10 w-full rounded-md border border-gray-300 px-3 text-sm outline-none focus:border-[#01389c]"
-                      >
-                        <option value="" disabled>
-                          {t("თვე", "Month")}
-                        </option>
-                        <option value="1">{t("იანვარი", "January")}</option>
-                        <option value="2">{t("თებერვალი", "February")}</option>
-                        <option value="3">{t("მარტი", "March")}</option>
-                        <option value="4">{t("აპრილი", "April")}</option>
-                        <option value="5">{t("მაისი", "May")}</option>
-                        <option value="6">{t("ივნისი", "June")}</option>
-                        <option value="7">{t("ივლისი", "July")}</option>
-                        <option value="8">{t("აგვისტო", "August")}</option>
-                        <option value="9">{t("სექტემბერი", "September")}</option>
-                        <option value="10">{t("ოქტომბერი", "October")}</option>
-                        <option value="11">{t("ნოემბერი", "November")}</option>
-                        <option value="12">{t("დეკემბერი", "December")}</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="bpg_mrgvlovani_caps mb-1 block text-xs font-semibold text-[#01389c]">
-                        {t("რიცხვი", "Date")}
-                      </label>
-                      <select
-                        value={row.day}
-                        onChange={(e) =>
-                          updateTableRow(row.id, "day", e.target.value)
-                        }
-                        className="bpg_mrgvlovani_caps h-10 w-full rounded-md border border-gray-300 px-3 text-sm outline-none focus:border-[#01389c]"
-                      >
-                        <option value="" disabled>
-                          {t("რიცხვი", "Date")}
-                        </option>
-                        {getDaysInMonth(row.year, row.month).map((d) => (
-                          <option key={d} value={d}>
-                            {d}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="bpg_mrgvlovani_caps mb-1 block text-xs font-semibold text-[#01389c]">
-                        {t(
-                          "შესრულებული სამუშაოს ღირებულება, ლარი",
-                          "Cost of work performed, GEL",
-                        )}
-                      </label>
-                      <input
-                        type="number"
-                        value={row.cost}
-                        onChange={(e) =>
-                          updateTableRow(row.id, "cost", e.target.value)
-                        }
-                        className="h-10 w-full rounded-md border border-gray-300 px-3 text-sm outline-none focus:border-[#01389c]"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="bpg_mrgvlovani_caps mb-1 block text-xs font-semibold text-[#01389c]">
-                        {t("საინდექსაციო თანხა, ლარი", "Indexation amount, GEL")}
-                      </label>
-                      <input
-                        type="text"
-                        value={row.money}
-                        readOnly
-                        className="h-10 w-full rounded-md border border-gray-200 bg-gray-50 px-3 text-sm outline-none"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="bpg_mrgvlovani_caps mb-1 block text-xs font-semibold text-[#01389c]">
-                        {t(
-                          "მშენებლობის ღირებულების ინდექსი საბაზო პერიოდთან შედარებით",
-                          "Construction Cost Index compared to the base period",
-                        )}
-                      </label>
-                      <input
-                        type="text"
-                        value={row.index}
-                        readOnly
-                        className="h-10 w-full rounded-md border border-gray-200 bg-gray-50 px-3 text-sm outline-none"
-                      />
-                    </div>
-
-                    <div className="sm:col-span-2">
-                      <label className="bpg_mrgvlovani_caps mb-1 block text-xs font-semibold text-[#01389c]">
-                        {t(
-                          "ფასთა ინდექსაციის შედეგად მიღებული თანხა, ლარი",
-                          "Reimbursement amount, GEL",
-                        )}
-                      </label>
-                      <input
-                        type="text"
-                        value={row.result}
-                        readOnly
-                        className="h-10 w-full rounded-md border border-gray-200 bg-gray-50 px-3 text-sm outline-none"
-                      />
-                    </div>
-                  </div>
-                </div>
-              ))}
-
-              <div className="rounded-xl border border-[#d7e3ff] bg-white p-4">
-                <p className="bpg_mrgvlovani_caps text-xs font-bold text-[#334155]">
+              <div className="mt-4 flex flex-col gap-3">
+                <label className="flex cursor-pointer items-start gap-3">
+                  <input
+                    type="radio"
+                    name="workCompletion-question-one"
+                    value="1"
+                    checked={workCompletion === "1"}
+                    onChange={(e) => setWorkCompletion(e.target.value)}
+                    className="mt-1 cursor-pointer accent-[#01389c]"
+                  />
+                  <span className="bpg_mrgvlovani_caps text-sm">
+                    {t(
+                      "სამუშაოების 10% ან/და ნაკლები",
+                      "10% and / or less of the works",
+                    )}
+                  </span>
+                </label>
+                <label className="flex cursor-pointer items-start gap-3">
+                  <input
+                    type="radio"
+                    name="workCompletion-question-one"
+                    value="2"
+                    checked={workCompletion === "2"}
+                    onChange={(e) => setWorkCompletion(e.target.value)}
+                    className="mt-1 cursor-pointer accent-[#01389c]"
+                  />
+                  <span className="bpg_mrgvlovani_caps text-sm">
+                    {t("სამუშაოების 10%-ზე მეტი", "More than 10% of the works")}
+                  </span>
+                </label>
+                <p className="bpg_mrgvlovani_caps mt-2 text-xs italic text-gray-600">
                   {t(
-                    "** მიმწოდებელი პასუხისმგებელია მის მიერ შეყვანილი ინფორმაციის სისწორეზე.",
-                    "** The supplier is responsible for the accuracy of the information entered.",
+                    "1-ლი პუნქტის მონიშვნის შემთხვევაში ხელშეკრულებაზე ვრცელდება ფასთა ინდექსაციით გამოწვეული დადებითი ან უარყოფითი ბალანსი; მე-2 პუნქტის მონიშვნის შემთხვევაში ხელშეკრულებაზე ვრცელდება ფასთა ინდექსაციით გამოწვეული დადებითი ბალანსი.",
+                    "In case of selecting option 1, the positive or negative balance caused by the price indexation applies to the contract. In case of selecting option 2, the positive balance caused by the price indexation applies to the contract",
                   )}
                 </p>
-                <p className="bpg_mrgvlovani_caps mt-2 text-xs font-bold text-[#334155]">
-                  {t(
-                    "** შემსყიდველი ვალდებულია ანგარიშსწორებამდე გადაამოწმოს მიმწოდებლის მიერ შევსებული მონაცემების სისწორე",
-                    "** The purchaser is obliged to verify the accuracy of the data entered by the supplier before settlement",
-                  )}
-                </p>
-                <div className="mt-4 flex items-center justify-between rounded-lg border border-[#d7e3ff] bg-[#f8fbff] px-4 py-3">
-                  <span className="bpg_mrgvlovani_caps text-sm font-bold text-[#01389c]">
-                    {t("სულ:", "Total:")}
-                  </span>
-                  <span className="bpg_mrgvlovani_caps text-base font-bold text-[#01389c]">
-                    {rowTotal}
-                  </span>
-                </div>
               </div>
             </div>
+          )}
 
-            <div className="hidden w-full overflow-x-auto md:block">
-              <table
-                className="min-w-[860px] w-full table-fixed border-collapse text-xs md:text-sm"
-                style={{ borderColor: "#01389c" }}
-              >
-                <thead>
-                  <tr className="bg-[#01389c] text-white">
-                    <th
-                      rowSpan={2}
-                      className="bpg_mrgvlovani_caps w-8 border border-[#4a6fb2] px-0.5 py-1.5 text-center align-middle text-[9px] leading-tight md:text-[10px]"
-                    >
-                      N
-                    </th>
-                    <th
-                      colSpan={3}
-                      className="bpg_mrgvlovani_caps border border-[#4a6fb2] px-2 py-2 text-center text-[9px] leading-tight md:text-[10px]"
-                    >
-                      {t(
-                        "სამუშაოს დასრულების პერიოდი",
-                        "End period of the work performed",
-                      )}
-                    </th>
-                    <th
-                      rowSpan={2}
-                      className="bpg_mrgvlovani_caps border border-[#4a6fb2] px-2 py-2 text-center align-middle whitespace-normal text-[9px] leading-tight md:text-[10px]"
-                    >
-                      {t(
-                        "შესრულებული სამუშაოს ღირებულება, ლარი",
-                        "Cost of work performed, GEL",
-                      )}
-                    </th>
-                    <th
-                      rowSpan={2}
-                      className="bpg_mrgvlovani_caps border border-[#4a6fb2] px-2 py-2 text-center align-middle whitespace-normal text-[9px] leading-tight md:text-[10px]"
-                    >
-                      {t("საინდექსაციო თანხა, ლარი", "Indexation amount, GEL")}
-                    </th>
-                    <th
-                      rowSpan={2}
-                      className="bpg_mrgvlovani_caps border border-[#4a6fb2] px-2 py-2 text-center align-middle whitespace-normal text-[9px] leading-tight md:text-[10px]"
-                    >
-                      {t(
-                        "მშენებლობის ღირებულების ინდექსი საბაზო პერიოდთან შედარებით",
-                        "Construction Cost Index compared to the base period",
-                      )}
-                    </th>
-                    <th
-                      rowSpan={2}
-                      className="bpg_mrgvlovani_caps w-[170px] border border-[#4a6fb2] px-2 py-2 text-center align-middle whitespace-normal text-[9px] leading-tight md:text-[10px]"
-                    >
-                      <span className="block">
-                        {t(
-                          "ფასთა ინდექსაციის შედეგად მიღებული თანხა, ლარი",
-                          "Reimbursement amount, GEL",
+        {!baseSectionOnly &&
+          showBasePeriod &&
+          (basePeriod === "1" || basePeriod === "2") && (
+            <div className="mt-8">
+              <p className="bpg_mrgvlovani_caps mb-4 font-bold">
+                {t(
+                  "4. ინფორმაცია შესრულებული სამუშაოს შესახებ",
+                  "4. Information about the performed work",
+                )}
+              </p>
+              <div className="space-y-4 md:hidden">
+                {tableRows.map((row, index) => (
+                  <div
+                    key={row.id}
+                    className="rounded-xl border border-[#d7e3ff] bg-[#f8fbff] p-4 shadow-sm"
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="bpg_mrgvlovani_caps text-sm font-bold text-[#01389c]">
+                        {`${t("რიგი", "Row")} ${row.id}`}
+                      </p>
+                      <div className="flex items-center gap-2">
+                        {tableRows.length > 1 && (
+                          <button
+                            type="button"
+                            onClick={() => removeTableRow(row.id)}
+                            title={t("წაშლა", "Remove row")}
+                            className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg border border-red-500 text-red-600 hover:bg-red-500 hover:text-white"
+                          >
+                            <img
+                              src={removeIcon}
+                              alt={t("წაშლა", "Remove")}
+                              className="h-4 w-4"
+                            />
+                          </button>
                         )}
-                      </span>
-                    </th>
-                    <th
-                      rowSpan={2}
-                      className="border border-[#4a6fb2] px-1 py-1 text-center align-middle"
-                      style={{ width: "56px" }}
-                    />
-                  </tr>
-                  <tr className="bg-[#01389c] text-white">
-                    <th className="bpg_mrgvlovani_caps border border-[#4a6fb2] px-2 py-1.5 text-center text-[9px] leading-tight md:text-[10px]">
-                      {t("წელი", "Year")}
-                    </th>
-                    <th className="bpg_mrgvlovani_caps border border-[#4a6fb2] px-2 py-1.5 text-center text-[9px] leading-tight md:text-[10px]">
-                      {t("თვე", "Month")}
-                    </th>
-                    <th className="bpg_mrgvlovani_caps border border-[#4a6fb2] px-2 py-1.5 text-center text-[9px] leading-tight md:text-[10px]">
-                      {t("რიცხვი", "Date")}
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {tableRows.map((row, index) => (
-                    <tr key={row.id} className="bg-white hover:bg-[#f7faff]">
-                      <td className="w-8 border border-gray-300 px-0.5 py-1.5 text-center align-middle text-xs">
-                        {row.id}
-                      </td>
-                      <td className="border border-gray-300 px-1 py-1">
+                        {index === tableRows.length - 1 && (
+                          <button
+                            type="button"
+                            onClick={addTableRow}
+                            title={t("დამატება", "Add row")}
+                            className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg border border-[#01389c] text-[#01389c] hover:bg-[#01389c] hover:text-white"
+                          >
+                            <img
+                              src={plusIcon}
+                              alt={t("დამატება", "Add")}
+                              className="h-4 w-4"
+                            />
+                          </button>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                      <div>
+                        <label className="bpg_mrgvlovani_caps mb-1 block text-xs font-semibold text-[#01389c]">
+                          {t("წელი", "Year")}
+                        </label>
                         <select
                           value={row.year}
                           onChange={(e) =>
                             updateTableRow(row.id, "year", e.target.value)
                           }
-                          className="bpg_mrgvlovani_caps h-8 w-full min-w-0 rounded border border-gray-300 px-2 py-1 text-xs outline-none focus:border-[#01389c]"
+                          className="bpg_mrgvlovani_caps h-10 w-full rounded-md border border-gray-300 px-3 text-sm outline-none focus:border-[#01389c]"
                         >
                           <option value="" disabled>
                             {t("წელი", "Year")}
@@ -1082,14 +849,18 @@ const QuestionOne = ({
                             </option>
                           ))}
                         </select>
-                      </td>
-                      <td className="border border-gray-300 px-1 py-1">
+                      </div>
+
+                      <div>
+                        <label className="bpg_mrgvlovani_caps mb-1 block text-xs font-semibold text-[#01389c]">
+                          {t("თვე", "Month")}
+                        </label>
                         <select
                           value={row.month}
                           onChange={(e) =>
                             updateTableRow(row.id, "month", e.target.value)
                           }
-                          className="bpg_mrgvlovani_caps h-8 w-full min-w-0 rounded border border-gray-300 px-2 py-1 text-xs outline-none focus:border-[#01389c]"
+                          className="bpg_mrgvlovani_caps h-10 w-full rounded-md border border-gray-300 px-3 text-sm outline-none focus:border-[#01389c]"
                         >
                           <option value="" disabled>
                             {t("თვე", "Month")}
@@ -1117,183 +888,434 @@ const QuestionOne = ({
                             {t("დეკემბერი", "December")}
                           </option>
                         </select>
-                      </td>
-                      <td className="border border-gray-300 px-1 py-1">
+                      </div>
+
+                      <div>
+                        <label className="bpg_mrgvlovani_caps mb-1 block text-xs font-semibold text-[#01389c]">
+                          {t("რიცხვი", "Date")}
+                        </label>
                         <select
                           value={row.day}
                           onChange={(e) =>
                             updateTableRow(row.id, "day", e.target.value)
                           }
-                          className="bpg_mrgvlovani_caps h-8 w-full min-w-0 rounded border border-gray-300 px-2 py-1 text-xs outline-none focus:border-[#01389c]"
+                          className="bpg_mrgvlovani_caps h-10 w-full rounded-md border border-gray-300 px-3 text-sm outline-none focus:border-[#01389c]"
                         >
-                          <option value="" disabled />
+                          <option value="" disabled>
+                            {t("რიცხვი", "Date")}
+                          </option>
                           {getDaysInMonth(row.year, row.month).map((d) => (
                             <option key={d} value={d}>
                               {d}
                             </option>
                           ))}
                         </select>
-                      </td>
-                      <td className="border border-gray-300 px-1 py-1">
+                      </div>
+
+                      <div>
+                        <label className="bpg_mrgvlovani_caps mb-1 block text-xs font-semibold text-[#01389c]">
+                          {t(
+                            "შესრულებული სამუშაოს ღირებულება, ლარი",
+                            "Cost of work performed, GEL",
+                          )}
+                        </label>
                         <input
                           type="number"
                           value={row.cost}
                           onChange={(e) =>
                             updateTableRow(row.id, "cost", e.target.value)
                           }
-                          className="h-8 w-full min-w-0 rounded border border-gray-300 px-2 py-1 text-xs outline-none focus:border-[#01389c]"
+                          className="h-10 w-full rounded-md border border-gray-300 px-3 text-sm outline-none focus:border-[#01389c]"
                         />
-                      </td>
-                      <td className="border border-gray-300 px-1 py-1">
+                      </div>
+
+                      <div>
+                        <label className="bpg_mrgvlovani_caps mb-1 block text-xs font-semibold text-[#01389c]">
+                          {t(
+                            "საინდექსაციო თანხა, ლარი",
+                            "Indexation amount, GEL",
+                          )}
+                        </label>
                         <input
                           type="text"
                           value={row.money}
                           readOnly
-                          className="h-8 w-full min-w-0 rounded border border-gray-200 bg-gray-50 px-2 py-1 text-xs outline-none"
+                          className="h-10 w-full rounded-md border border-gray-200 bg-gray-50 px-3 text-sm outline-none"
                         />
-                      </td>
-                      <td className="border border-gray-300 px-1 py-1">
+                      </div>
+
+                      <div>
+                        <label className="bpg_mrgvlovani_caps mb-1 block text-xs font-semibold text-[#01389c]">
+                          {t(
+                            "მშენებლობის ღირებულების ინდექსი საბაზო პერიოდთან შედარებით",
+                            "Construction Cost Index compared to the base period",
+                          )}
+                        </label>
                         <input
                           type="text"
                           value={row.index}
                           readOnly
-                          className="h-8 w-full min-w-0 rounded border border-gray-200 bg-gray-50 px-2 py-1 text-xs outline-none"
+                          className="h-10 w-full rounded-md border border-gray-200 bg-gray-50 px-3 text-sm outline-none"
                         />
-                      </td>
-                      <td className="w-[170px] border border-gray-300 px-1 py-1">
+                      </div>
+
+                      <div className="sm:col-span-2">
+                        <label className="bpg_mrgvlovani_caps mb-1 block text-xs font-semibold text-[#01389c]">
+                          {t(
+                            "ფასთა ინდექსაციის შედეგად მიღებული თანხა, ლარი",
+                            "Reimbursement amount, GEL",
+                          )}
+                        </label>
                         <input
                           type="text"
                           value={row.result}
                           readOnly
-                          className="h-8 w-full min-w-0 rounded border border-gray-200 bg-gray-50 px-2 py-1 text-xs outline-none"
+                          className="h-10 w-full rounded-md border border-gray-200 bg-gray-50 px-3 text-sm outline-none"
                         />
-                      </td>
-                      <td className="border border-gray-300 px-1 py-1 text-center">
-                        <div className="flex items-center justify-center gap-1">
-                          {tableRows.length > 1 && (
-                            <button
-                              type="button"
-                              onClick={() => removeTableRow(row.id)}
-                              title={t("წაშლა", "Remove row")}
-                              className="flex h-5 w-5 cursor-pointer items-center justify-center rounded border border-red-500 text-[10px] font-bold text-red-600 hover:bg-red-500 hover:text-white md:h-6 md:w-6"
-                            >
-                              <img
-                                src={removeIcon}
-                                alt={t("წაშლა", "Remove")}
-                                className="h-3.5 w-3.5 md:h-4 md:w-4"
-                              />
-                            </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+                <div className="rounded-xl border border-[#d7e3ff] bg-white p-4">
+                  <p className="bpg_mrgvlovani_caps text-xs font-bold text-[#334155]">
+                    {t(
+                      "** მიმწოდებელი პასუხისმგებელია მის მიერ შეყვანილი ინფორმაციის სისწორეზე.",
+                      "** The supplier is responsible for the accuracy of the information entered.",
+                    )}
+                  </p>
+                  <p className="bpg_mrgvlovani_caps mt-2 text-xs font-bold text-[#334155]">
+                    {t(
+                      "** შემსყიდველი ვალდებულია ანგარიშსწორებამდე გადაამოწმოს მიმწოდებლის მიერ შევსებული მონაცემების სისწორე",
+                      "** The purchaser is obliged to verify the accuracy of the data entered by the supplier before settlement",
+                    )}
+                  </p>
+                  <div className="mt-4 flex items-center justify-between rounded-lg border border-[#d7e3ff] bg-[#f8fbff] px-4 py-3">
+                    <span className="bpg_mrgvlovani_caps text-sm font-bold text-[#01389c]">
+                      {t("სულ:", "Total:")}
+                    </span>
+                    <span className="bpg_mrgvlovani_caps text-base font-bold text-[#01389c]">
+                      {rowTotal}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="hidden w-full overflow-x-auto md:block">
+                <table
+                  className="min-w-[860px] w-full table-fixed border-collapse text-xs md:text-sm"
+                  style={{ borderColor: "#01389c" }}
+                >
+                  <thead>
+                    <tr className="bg-[#01389c] text-white">
+                      <th
+                        rowSpan={2}
+                        className="bpg_mrgvlovani_caps w-8 border border-[#4a6fb2] px-0.5 py-1.5 text-center align-middle text-[9px] leading-tight md:text-[10px]"
+                      >
+                        N
+                      </th>
+                      <th
+                        colSpan={3}
+                        className="bpg_mrgvlovani_caps border border-[#4a6fb2] px-2 py-2 text-center text-[9px] leading-tight md:text-[10px]"
+                      >
+                        {t(
+                          "სამუშაოს დასრულების პერიოდი",
+                          "End period of the work performed",
+                        )}
+                      </th>
+                      <th
+                        rowSpan={2}
+                        className="bpg_mrgvlovani_caps border border-[#4a6fb2] px-2 py-2 text-center align-middle whitespace-normal text-[9px] leading-tight md:text-[10px]"
+                      >
+                        {t(
+                          "შესრულებული სამუშაოს ღირებულება, ლარი",
+                          "Cost of work performed, GEL",
+                        )}
+                      </th>
+                      <th
+                        rowSpan={2}
+                        className="bpg_mrgvlovani_caps border border-[#4a6fb2] px-2 py-2 text-center align-middle whitespace-normal text-[9px] leading-tight md:text-[10px]"
+                      >
+                        {t(
+                          "საინდექსაციო თანხა, ლარი",
+                          "Indexation amount, GEL",
+                        )}
+                      </th>
+                      <th
+                        rowSpan={2}
+                        className="bpg_mrgvlovani_caps border border-[#4a6fb2] px-2 py-2 text-center align-middle whitespace-normal text-[9px] leading-tight md:text-[10px]"
+                      >
+                        {t(
+                          "მშენებლობის ღირებულების ინდექსი საბაზო პერიოდთან შედარებით",
+                          "Construction Cost Index compared to the base period",
+                        )}
+                      </th>
+                      <th
+                        rowSpan={2}
+                        className="bpg_mrgvlovani_caps w-[170px] border border-[#4a6fb2] px-2 py-2 text-center align-middle whitespace-normal text-[9px] leading-tight md:text-[10px]"
+                      >
+                        <span className="block">
+                          {t(
+                            "ფასთა ინდექსაციის შედეგად მიღებული თანხა, ლარი",
+                            "Reimbursement amount, GEL",
                           )}
-                          {index === tableRows.length - 1 && (
-                            <button
-                              type="button"
-                              onClick={addTableRow}
-                              title={t("დამატება", "Add row")}
-                              className="flex h-5 w-5 cursor-pointer items-center justify-center rounded border border-[#01389c] text-[10px] font-bold text-[#01389c] hover:bg-[#01389c] hover:text-white md:h-6 md:w-6"
-                            >
-                              <img
-                                src={plusIcon}
-                                alt={t("დამატება", "Add")}
-                                className="h-3.5 w-3.5 md:h-4 md:w-4"
-                              />
-                            </button>
-                          )}
-                        </div>
+                        </span>
+                      </th>
+                      <th
+                        rowSpan={2}
+                        className="border border-[#4a6fb2] px-1 py-1 text-center align-middle"
+                        style={{ width: "56px" }}
+                      />
+                    </tr>
+                    <tr className="bg-[#01389c] text-white">
+                      <th className="bpg_mrgvlovani_caps border border-[#4a6fb2] px-2 py-1.5 text-center text-[9px] leading-tight md:text-[10px]">
+                        {t("წელი", "Year")}
+                      </th>
+                      <th className="bpg_mrgvlovani_caps border border-[#4a6fb2] px-2 py-1.5 text-center text-[9px] leading-tight md:text-[10px]">
+                        {t("თვე", "Month")}
+                      </th>
+                      <th className="bpg_mrgvlovani_caps border border-[#4a6fb2] px-2 py-1.5 text-center text-[9px] leading-tight md:text-[10px]">
+                        {t("რიცხვი", "Date")}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {tableRows.map((row, index) => (
+                      <tr key={row.id} className="bg-white hover:bg-[#f7faff]">
+                        <td className="w-8 border border-gray-300 px-0.5 py-1.5 text-center align-middle text-xs">
+                          {row.id}
+                        </td>
+                        <td className="border border-gray-300 px-1 py-1">
+                          <select
+                            value={row.year}
+                            onChange={(e) =>
+                              updateTableRow(row.id, "year", e.target.value)
+                            }
+                            className="bpg_mrgvlovani_caps h-8 w-full min-w-0 rounded border border-gray-300 px-2 py-1 text-xs outline-none focus:border-[#01389c]"
+                          >
+                            <option value="" disabled>
+                              {t("წელი", "Year")}
+                            </option>
+                            {["2022", "2023", "2024", "2025", "2026"].map(
+                              (y) => (
+                                <option key={y} value={y}>
+                                  {y}
+                                </option>
+                              ),
+                            )}
+                          </select>
+                        </td>
+                        <td className="border border-gray-300 px-1 py-1">
+                          <select
+                            value={row.month}
+                            onChange={(e) =>
+                              updateTableRow(row.id, "month", e.target.value)
+                            }
+                            className="bpg_mrgvlovani_caps h-8 w-full min-w-0 rounded border border-gray-300 px-2 py-1 text-xs outline-none focus:border-[#01389c]"
+                          >
+                            <option value="" disabled>
+                              {t("თვე", "Month")}
+                            </option>
+                            <option value="1">{t("იანვარი", "January")}</option>
+                            <option value="2">
+                              {t("თებერვალი", "February")}
+                            </option>
+                            <option value="3">{t("მარტი", "March")}</option>
+                            <option value="4">{t("აპრილი", "April")}</option>
+                            <option value="5">{t("მაისი", "May")}</option>
+                            <option value="6">{t("ივნისი", "June")}</option>
+                            <option value="7">{t("ივლისი", "July")}</option>
+                            <option value="8">{t("აგვისტო", "August")}</option>
+                            <option value="9">
+                              {t("სექტემბერი", "September")}
+                            </option>
+                            <option value="10">
+                              {t("ოქტომბერი", "October")}
+                            </option>
+                            <option value="11">
+                              {t("ნოემბერი", "November")}
+                            </option>
+                            <option value="12">
+                              {t("დეკემბერი", "December")}
+                            </option>
+                          </select>
+                        </td>
+                        <td className="border border-gray-300 px-1 py-1">
+                          <select
+                            value={row.day}
+                            onChange={(e) =>
+                              updateTableRow(row.id, "day", e.target.value)
+                            }
+                            className="bpg_mrgvlovani_caps h-8 w-full min-w-0 rounded border border-gray-300 px-2 py-1 text-xs outline-none focus:border-[#01389c]"
+                          >
+                            <option value="" disabled />
+                            {getDaysInMonth(row.year, row.month).map((d) => (
+                              <option key={d} value={d}>
+                                {d}
+                              </option>
+                            ))}
+                          </select>
+                        </td>
+                        <td className="border border-gray-300 px-1 py-1">
+                          <input
+                            type="number"
+                            value={row.cost}
+                            onChange={(e) =>
+                              updateTableRow(row.id, "cost", e.target.value)
+                            }
+                            className="h-8 w-full min-w-0 rounded border border-gray-300 px-2 py-1 text-xs outline-none focus:border-[#01389c]"
+                          />
+                        </td>
+                        <td className="border border-gray-300 px-1 py-1">
+                          <input
+                            type="text"
+                            value={row.money}
+                            readOnly
+                            className="h-8 w-full min-w-0 rounded border border-gray-200 bg-gray-50 px-2 py-1 text-xs outline-none"
+                          />
+                        </td>
+                        <td className="border border-gray-300 px-1 py-1">
+                          <input
+                            type="text"
+                            value={row.index}
+                            readOnly
+                            className="h-8 w-full min-w-0 rounded border border-gray-200 bg-gray-50 px-2 py-1 text-xs outline-none"
+                          />
+                        </td>
+                        <td className="w-[170px] border border-gray-300 px-1 py-1">
+                          <input
+                            type="text"
+                            value={row.result}
+                            readOnly
+                            className="h-8 w-full min-w-0 rounded border border-gray-200 bg-gray-50 px-2 py-1 text-xs outline-none"
+                          />
+                        </td>
+                        <td className="border border-gray-300 px-1 py-1 text-center">
+                          <div className="flex items-center justify-center gap-1">
+                            {tableRows.length > 1 && (
+                              <button
+                                type="button"
+                                onClick={() => removeTableRow(row.id)}
+                                title={t("წაშლა", "Remove row")}
+                                className="flex h-5 w-5 cursor-pointer items-center justify-center rounded border border-red-500 text-[10px] font-bold text-red-600 hover:bg-red-500 hover:text-white md:h-6 md:w-6"
+                              >
+                                <img
+                                  src={removeIcon}
+                                  alt={t("წაშლა", "Remove")}
+                                  className="h-3.5 w-3.5 md:h-4 md:w-4"
+                                />
+                              </button>
+                            )}
+                            {index === tableRows.length - 1 && (
+                              <button
+                                type="button"
+                                onClick={addTableRow}
+                                title={t("დამატება", "Add row")}
+                                className="flex h-5 w-5 cursor-pointer items-center justify-center rounded border border-[#01389c] text-[10px] font-bold text-[#01389c] hover:bg-[#01389c] hover:text-white md:h-6 md:w-6"
+                              >
+                                <img
+                                  src={plusIcon}
+                                  alt={t("დამატება", "Add")}
+                                  className="h-3.5 w-3.5 md:h-4 md:w-4"
+                                />
+                              </button>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                    <tr>
+                      <td
+                        colSpan={9}
+                        className="bpg_mrgvlovani_caps border-0 pt-2 text-left text-xs font-bold"
+                      >
+                        {t(
+                          "** მიმწოდებელი პასუხისმგებელია მის მიერ შეყვანილი ინფორმაციის სისწორეზე.",
+                          "** The supplier is responsible for the accuracy of the information entered.",
+                        )}
                       </td>
                     </tr>
-                  ))}
-                  <tr>
-                    <td
-                      colSpan={9}
-                      className="bpg_mrgvlovani_caps border-0 pt-2 text-left text-xs font-bold"
-                    >
-                      {t(
-                        "** მიმწოდებელი პასუხისმგებელია მის მიერ შეყვანილი ინფორმაციის სისწორეზე.",
-                        "** The supplier is responsible for the accuracy of the information entered.",
-                      )}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td
-                      colSpan={9}
-                      className="bpg_mrgvlovani_caps border-0 pb-2 text-left text-xs font-bold"
-                    >
-                      {t(
-                        "** შემსყიდველი ვალდებულია ანგარიშსწორებამდე გადაამოწმოს მიმწოდებლის მიერ შევსებული მონაცემების სისწორე",
-                        "** The purchaser is obliged to verify the accuracy of the data entered by the supplier before settlement",
-                      )}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colSpan={7} className="border border-gray-300" />
-                    <td
-                      colSpan={2}
-                      className="bpg_mrgvlovani_caps border border-gray-300 px-2 py-1 text-sm font-bold"
-                    >
-                      {t("სულ:", "Total:")}{" "}
-                      <span className="text-[#01389c]">{rowTotal}</span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div className="mt-4">
-              <label className="flex cursor-pointer items-start gap-2 sm:items-center">
-                <input
-                  type="checkbox"
-                  checked={confirmed}
-                  onChange={(e) => setConfirmed(e.target.checked)}
-                  className="h-4 w-4 cursor-pointer accent-[#01389c]"
-                />
-                <span className="bpg_mrgvlovani_caps text-sm">
-                  {t(
-                    "ვადასტურებ და პასუხისმგებლობას ვიღებ ჩემს მიერ შევსებული ინფორმაციის სისწორეზე",
-                    "I confirm and take responsibility on the correctness of the information filled above",
-                  )}
-                </span>
-              </label>
+                    <tr>
+                      <td
+                        colSpan={9}
+                        className="bpg_mrgvlovani_caps border-0 pb-2 text-left text-xs font-bold"
+                      >
+                        {t(
+                          "** შემსყიდველი ვალდებულია ანგარიშსწორებამდე გადაამოწმოს მიმწოდებლის მიერ შევსებული მონაცემების სისწორე",
+                          "** The purchaser is obliged to verify the accuracy of the data entered by the supplier before settlement",
+                        )}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colSpan={7} className="border border-gray-300" />
+                      <td
+                        colSpan={2}
+                        className="bpg_mrgvlovani_caps border border-gray-300 px-2 py-1 text-sm font-bold"
+                      >
+                        {t("სულ:", "Total:")}{" "}
+                        <span className="text-[#01389c]">{rowTotal}</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div className="mt-4">
+                <label className="flex cursor-pointer items-start gap-2 sm:items-center">
+                  <input
+                    type="checkbox"
+                    checked={confirmed}
+                    onChange={(e) => setConfirmed(e.target.checked)}
+                    className="h-4 w-4 cursor-pointer accent-[#01389c]"
+                  />
+                  <span className="bpg_mrgvlovani_caps text-sm">
+                    {t(
+                      "ვადასტურებ და პასუხისმგებლობას ვიღებ ჩემს მიერ შევსებული ინფორმაციის სისწორეზე",
+                      "I confirm and take responsibility on the correctness of the information filled above",
+                    )}
+                  </span>
+                </label>
 
-              <button
-                type="button"
-                onClick={async () => {
-                  try {
-                    const res = await fetch(`${API_BASE}/report`, {
-                      method: "POST",
-                      headers: { "Content-Type": "application/json" },
-                      body: JSON.stringify({
-                        contractnum: contractNumber,
-                        customer,
-                        Legal_Code: identCode,
-                        Full_Name: companyData?.Full_Name || "",
-                        rows: tableRows.map((row) => ({
-                          year: row.year,
-                          month: row.month,
-                          day: row.day,
-                          cost: row.cost,
-                          money: row.money,
-                          index: row.index,
-                          result: row.result,
-                        })),
-                      }),
-                    });
-                    if (!res.ok) {
-                      const err = await res.json().catch(() => ({}));
-                      console.error("Report insert error:", err);
+                <button
+                  type="button"
+                  onClick={async () => {
+                    try {
+                      const res = await fetch(`${API_BASE}/report`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                          contractnum: contractNumber,
+                          customer,
+                          Legal_Code: identCode,
+                          Full_Name: companyData?.Full_Name || "",
+                          rows: tableRows.map((row) => ({
+                            year: row.year,
+                            month: row.month,
+                            day: row.day,
+                            cost: row.cost,
+                            money: row.money,
+                            index: row.index,
+                            result: row.result,
+                          })),
+                        }),
+                      });
+                      if (!res.ok) {
+                        const err = await res.json().catch(() => ({}));
+                        console.error("Report insert error:", err);
+                      }
+                    } catch (err) {
+                      console.error("Report insert fetch error:", err);
                     }
-                  } catch (err) {
-                    console.error("Report insert fetch error:", err);
-                  }
-                  setIsDocModalOpen(true);
-                }}
-                disabled={!confirmed}
-                className="bpg_mrgvlovani_caps mt-4 inline-flex w-full items-center justify-center gap-2 rounded-md border border-[#01389c] px-4 py-2 text-sm font-semibold text-[#01389c] transition-colors hover:bg-[#01389c] hover:text-white disabled:cursor-not-allowed disabled:border-gray-300 disabled:text-gray-400 disabled:hover:bg-transparent cursor-pointer sm:w-auto"
-              >
-                <img src={docs} alt="google docs" className="h-5 w-5" />
-                {t("დოკუმენტის დაგენერირება", "Generate document")}
-              </button>
+                    setIsDocModalOpen(true);
+                  }}
+                  disabled={!confirmed}
+                  className="bpg_mrgvlovani_caps mt-4 inline-flex w-full items-center justify-center gap-2 rounded-md border border-[#01389c] px-4 py-2 text-sm font-semibold text-[#01389c] transition-colors hover:bg-[#01389c] hover:text-white disabled:cursor-not-allowed disabled:border-gray-300 disabled:text-gray-400 disabled:hover:bg-transparent cursor-pointer sm:w-auto"
+                >
+                  <img src={docs} alt="google docs" className="h-5 w-5" />
+                  {t("დოკუმენტის დაგენერირება", "Generate document")}
+                </button>
+              </div>
             </div>
-          </div>
-        )}
+          )}
       </div>
 
       <DocumentGenerationModal

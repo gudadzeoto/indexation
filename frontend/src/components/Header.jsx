@@ -30,13 +30,13 @@ const Header = ({
         backgroundImage: `url(${headerBg})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
-        padding: "15px 15px 22px",
+        padding: "12px 12px 18px",
       }}
     >
-      <div className="w-full py-4">
-        <div className="flex flex-col gap-6 xl:flex-row xl:items-center xl:justify-between">
+      <div className="w-full py-3 md:py-4">
+        <div className="flex flex-col gap-5 lg:gap-6 xl:flex-row xl:items-center xl:justify-between">
         {/* Logo */}
-          <div className="flex items-center justify-start">
+          <div className="flex items-center justify-center sm:justify-start">
             <a
               href="https://www.geostat.ge/ka"
               target="_blank"
@@ -54,7 +54,7 @@ const Header = ({
         {/* Title */}
           <div className="flex-1">
             <h1
-              className="bpg_mrgvlovani_caps text-center text-[20px] text-white"
+              className="bpg_mrgvlovani_caps text-center text-[18px] leading-snug text-white sm:text-[20px]"
               id="titletext"
               tabIndex={0}
             >
@@ -63,7 +63,7 @@ const Header = ({
                 : "Price indexation calculator"}
             </h1>
 
-            <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
               {questionnaireButtons.map((questionNumber) => {
                 const isActive = activeQuestion === questionNumber;
 
@@ -72,7 +72,7 @@ const Header = ({
                     key={questionNumber}
                     type="button"
                     onClick={() => setActiveQuestion(questionNumber)}
-                    className={`bpg_mrgvlovani_caps rounded-full border px-5 py-2 text-sm transition-all duration-300 ${
+                    className={`bpg_mrgvlovani_caps min-w-[130px] rounded-full border px-4 py-2 text-sm transition-all duration-300 sm:min-w-0 sm:px-5 ${
                       isActive
                         ? "border-white bg-white text-[#01389c] shadow-lg"
                         : "border-white/70 bg-white/10 text-white hover:bg-white/20"
@@ -86,13 +86,13 @@ const Header = ({
           </div>
 
         {/* Icons & Language Switch */}
-          <div className="flex items-center justify-end gap-3 self-end xl:mr-[38px] xl:mt-7">
+          <div className="flex w-full flex-wrap items-center justify-center gap-2 self-center sm:gap-3 md:justify-end xl:mt-7 xl:w-auto xl:self-end">
             <a
               href=""
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Test icon 1"
-              className="flex h-10 w-10 items-center justify-center rounded-sm border border-white bg-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
+              className="flex h-9 w-9 items-center justify-center rounded-sm border border-white bg-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg sm:h-10 sm:w-10"
             >
               <img src={processIcon} alt="test-1" className="h-5 w-5 md:h-6 md:w-6" />
             </a>
@@ -101,7 +101,7 @@ const Header = ({
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Test icon 2"
-              className="flex h-10 w-10 items-center justify-center rounded-sm border border-white bg-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
+              className="flex h-9 w-9 items-center justify-center rounded-sm border border-white bg-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg sm:h-10 sm:w-10"
             >
               <img src={compliantIcon} alt="test-2" className="h-5 w-5 md:h-6 md:w-6" />
             </a>
@@ -110,7 +110,7 @@ const Header = ({
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Test icon 3"
-              className="flex h-10 w-10 items-center justify-center rounded-sm border border-white bg-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
+              className="flex h-9 w-9 items-center justify-center rounded-sm border border-white bg-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg sm:h-10 sm:w-10"
             >
               <img src={constructionIcon} alt="test-3" className="h-5 w-5 md:h-6 md:w-6" />
             </a>
@@ -119,7 +119,7 @@ const Header = ({
             <div>
               <button
                 onClick={toggleLanguage}
-                className="period-select flex cursor-pointer items-center gap-2 rounded-md bg-white/90 px-4 py-2.5 transition-all duration-300 hover:bg-white"
+                className="period-select flex cursor-pointer items-center gap-2 rounded-md bg-white/90 px-3 py-2 transition-all duration-300 hover:bg-white sm:px-4 sm:py-2.5"
               >
                 <span className="language-toggle cursor-pointer text-sm font-medium text-gray-700 md:text-base">
                   {language === "GE" ? "English" : "ქართული"}
