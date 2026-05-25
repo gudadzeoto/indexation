@@ -20,8 +20,8 @@ const Header = ({
     setLanguage(language === "GE" ? "EN" : "GE");
   };
 
-
-  const fontClass = language === "GE" ? "bpg_mrgvlovani_caps" : "bpg_mrgvlovani_caps";
+  const fontClass =
+    language === "GE" ? "bpg_mrgvlovani_caps" : "bpg_mrgvlovani_caps";
 
   return (
     <header
@@ -35,7 +35,7 @@ const Header = ({
     >
       <div className="w-full py-3 md:py-4">
         <div className="flex flex-col gap-5 lg:gap-6 xl:flex-row xl:items-center xl:justify-between">
-        {/* Logo */}
+          {/* Logo */}
           <div className="flex items-center justify-center sm:justify-start">
             <a
               href="https://www.geostat.ge/ka"
@@ -51,7 +51,7 @@ const Header = ({
             </a>
           </div>
 
-        {/* Title */}
+          {/* Title */}
           <div className="flex-1">
             <h1
               className="bpg_mrgvlovani_caps text-center text-[18px] leading-snug text-white sm:text-[20px]"
@@ -72,7 +72,7 @@ const Header = ({
                     key={questionNumber}
                     type="button"
                     onClick={() => setActiveQuestion(questionNumber)}
-                    className={`bpg_mrgvlovani_caps min-w-[130px] rounded-full border px-4 py-2 text-sm transition-all duration-300 sm:min-w-0 sm:px-5 ${
+                    className={`bpg_mrgvlovani_caps min-w-[130px] rounded-full border px-4 py-2 text-sm transition-all duration-300 sm:min-w-0 sm:px-5 cursor-pointer ${
                       isActive
                         ? "border-white bg-white text-[#01389c] shadow-lg"
                         : "border-white/70 bg-white/10 text-white hover:bg-white/20"
@@ -85,7 +85,7 @@ const Header = ({
             </div>
           </div>
 
-        {/* Icons & Language Switch */}
+          {/* Icons & Language Switch */}
           <div className="flex w-full flex-wrap items-center justify-center gap-2 self-center sm:gap-3 md:justify-end xl:mt-7 xl:w-auto xl:self-end">
             <a
               href=""
@@ -94,7 +94,11 @@ const Header = ({
               aria-label="Test icon 1"
               className="flex h-9 w-9 items-center justify-center rounded-sm border border-white bg-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg sm:h-10 sm:w-10"
             >
-              <img src={processIcon} alt="test-1" className="h-5 w-5 md:h-6 md:w-6" />
+              <img
+                src={processIcon}
+                alt="test-1"
+                className="h-5 w-5 md:h-6 md:w-6"
+              />
             </a>
             <a
               href=""
@@ -103,7 +107,11 @@ const Header = ({
               aria-label="Test icon 2"
               className="flex h-9 w-9 items-center justify-center rounded-sm border border-white bg-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg sm:h-10 sm:w-10"
             >
-              <img src={compliantIcon} alt="test-2" className="h-5 w-5 md:h-6 md:w-6" />
+              <img
+                src={compliantIcon}
+                alt="test-2"
+                className="h-5 w-5 md:h-6 md:w-6"
+              />
             </a>
             <a
               href=""
@@ -112,10 +120,14 @@ const Header = ({
               aria-label="Test icon 3"
               className="flex h-9 w-9 items-center justify-center rounded-sm border border-white bg-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg sm:h-10 sm:w-10"
             >
-              <img src={constructionIcon} alt="test-3" className="h-5 w-5 md:h-6 md:w-6" />
+              <img
+                src={constructionIcon}
+                alt="test-3"
+                className="h-5 w-5 md:h-6 md:w-6"
+              />
             </a>
 
-          {/* Language toggle */}
+            {/* Language toggle */}
             <div>
               <button
                 onClick={toggleLanguage}
