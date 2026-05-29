@@ -4,7 +4,7 @@ import QuestionTwoDocumentGeneration from "./QuestionTwoDocumentGeneration";
 import removeIcon from "../assets/images/remove.png";
 import plusIcon from "../assets/images/plus.png";
 
-const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5002/api";
+const API_BASE = import.meta.env.VITE_API_BASE || "http://192.168.0.74:5002/api";
 const TENDER_MIN_DATE = "2022-02-01";
 
 const getLastDayOfMonth = (year, month) =>

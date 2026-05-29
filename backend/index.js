@@ -16,6 +16,7 @@ const allowedOrigins = new Set([
   "https://indexation.geostat.ge",
   "http://localhost:5173",
   "http://localhost:5174",
+  "http://192.168.0.74:5173",
 ]);
 
 // ✅ IMPORTANT — allow your frontend domain

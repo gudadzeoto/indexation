@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import DocumentGenerationModal from "./DocumentGenerationModal";
 import docs from "../assets/images/google-docs.png";
 
-const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5002/api";
+const API_BASE = import.meta.env.VITE_API_BASE || "http://192.168.0.74:5002/api";
 
 const QuestionTwoDocumentGeneration = ({
   language = "GE",

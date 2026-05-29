@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import InfoModal from "./InfoModal";
 import infoLogo from "../assets/images/info.png";
 
-const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5002/api";
+const API_BASE = import.meta.env.VITE_API_BASE || "http://192.168.0.74:5002/api";
 
 const QuestionForm = ({ questionNumber }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
