@@ -88,7 +88,7 @@ const Header = ({
           {/* Icons & Language Switch */}
           <div className="flex w-full flex-wrap items-center justify-center gap-2 self-center sm:gap-3 md:justify-end xl:mt-7 xl:w-auto xl:self-end">
             <a
-              href=""
+              href="https://www.geostat.ge/media/61536/CCI-Metodologia.pdf"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Test icon 1"
@@ -101,7 +101,7 @@ const Header = ({
               />
             </a>
             <a
-              href=""
+              href="https://matsne.gov.ge/ka/document/view/5458532?publication=0"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Test icon 2"
@@ -114,7 +114,7 @@ const Header = ({
               />
             </a>
             <a
-              href=""
+              href="https://www.geostat.ge/ka/modules/categories/655/msheneblobis-ghirebulebis-indeksi"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Test icon 3"
