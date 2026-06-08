@@ -14,7 +14,11 @@ const Header = ({
   activeQuestion = 1,
   setActiveQuestion = () => {},
 }) => {
-  const questionnaireButtons = [1, 2, 3];
+  const questionnaireButtons = [
+    { id: 1, label: "დადგენილება N753" },
+    { id: 2, label: "დადგენილება N245 გარდამავალი" },
+    { id: 3, label: "დადგენილება N245 მუდმივი" },
+  ];
 
   const toggleLanguage = () => {
     setLanguage(language === "GE" ? "EN" : "GE");
@@ -63,25 +67,36 @@ const Header = ({
                 : "Price indexation calculator"}
             </h1>
 
-            <div className="mt-4 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
-              {questionnaireButtons.map((questionNumber) => {
-                const isActive = activeQuestion === questionNumber;
+            <div className="mt-4 rounded-2xl border border-white/35 bg-black/20 p-2 backdrop-blur-[2px]">
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+              {questionnaireButtons.map((question) => {
+                const isActive = activeQuestion === question.id;
 
                 return (
                   <button
-                    key={questionNumber}
+                    key={question.id}
                     type="button"
-                    onClick={() => setActiveQuestion(questionNumber)}
-                    className={`bpg_mrgvlovani_caps min-w-[130px] rounded-full border px-4 py-2 text-sm transition-all duration-300 sm:min-w-0 sm:px-5 cursor-pointer ${
+                    onClick={() => setActiveQuestion(question.id)}
+                    className={`group bpg_mrgvlovani_caps flex w-full cursor-pointer items-center gap-2 rounded-xl border px-3 py-2.5 text-left text-sm transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 ${
                       isActive
                         ? "border-white bg-white text-[#01389c] shadow-lg"
-                        : "border-white/70 bg-white/10 text-white hover:bg-white/20"
+                        : "border-white/60 bg-white/5 text-white hover:bg-white/15"
                     }`}
                   >
-                    {`კითხვარი ${questionNumber}`}
+                    <span
+                      className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-semibold ${
+                        isActive
+                          ? "bg-[#01389c] text-white"
+                          : "bg-white/20 text-white"
+                      }`}
+                    >
+                      {question.id}
+                    </span>
+                    <span className="leading-tight">{question.label}</span>
                   </button>
                 );
               })}
+              </div>
             </div>
           </div>
 
