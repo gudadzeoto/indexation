@@ -359,7 +359,7 @@ const QuestionTwo = ({ language = "GE" }) => {
       return { ...row, money: "", index: "", pn: "", result: "" };
     }
 
-    const money = workType === "2" ? costNum * 0.7 : costNum;
+    const money = workType === "2" ? costNum * 0.15 : costNum;
 
     if (!row.year || !row.month || !row.day || !baseMonthKeyForCalc) {
       return {
@@ -542,7 +542,7 @@ const QuestionTwo = ({ language = "GE" }) => {
   const workTypeSection = (
     <div className="mt-6">
       <p className="bpg_mrgvlovani_caps font-bold">
-        {t("2. გთხოვთ, აირჩიოთ სამუშაოს ტიპი", "2. Please select work type")}
+        {t("1. გთხოვთ, აირჩიოთ სამუშაოს ტიპი", "1. Please select work type")}
       </p>
       <div className="mt-4 flex flex-col gap-3">
         <label className="flex cursor-pointer items-start gap-3">
@@ -580,8 +580,8 @@ const QuestionTwo = ({ language = "GE" }) => {
       <div className="mt-6">
         <p className="bpg_mrgvlovani_caps font-bold">
           {t(
-            "3. გთხოვთ, აირჩიოთ საინდექსაციო პერიოდი",
-            "3. Please select indexation period",
+            "2. გთხოვთ, აირჩიოთ საინდექსაციო პერიოდი",
+            "2. Please select indexation period",
           )}
         </p>
         <div className="mt-4 flex flex-col gap-3">
@@ -647,8 +647,8 @@ const QuestionTwo = ({ language = "GE" }) => {
           <div className="mt-6">
             <p className="bpg_mrgvlovani_caps font-bold">
               {t(
-                "4.გთხოვთ, მიუთითოთ ტენდერის გახსნის თარიღი",
-                "4. Date of tender opening",
+                "3.გთხოვთ, მიუთითოთ ტენდერის გახსნის თარიღი",
+                "3. Date of tender opening",
               )}
             </p>
             <p className="bpg_mrgvlovani_caps mt-2 text-xs italic text-gray-600">
@@ -701,108 +701,109 @@ const QuestionTwo = ({ language = "GE" }) => {
             </div>
           )}
 
-        <div className="mt-6">
-          <p className="bpg_mrgvlovani_caps font-bold">
-            {t(
-              "5. ფასთა ინდექსაციის ფორმულა",
-              "5. Price Indexation Formula",
-            )}
-          </p>
-          <p className="bpg_mrgvlovani_caps mt-2 text-sm">
-            {t(
-              "გთხოვთ, შეავსოთ შემდეგი ველები (მიუთითეთ პროცენტული ოდენობა):",
-              "Please fill in the following fields (specify percentage):",
-            )}
-          </p>
-          <div className="mt-4 space-y-4">
-            <div>
-              <label className="bpg_mrgvlovani_caps block text-sm font-medium text-[#01389c] mb-2">
-                {t(
-                  "ფიქსირებული კოეფიციენტი, რომელიც წარმოადგენს სახელშეკრულებო ღირებულების არაკორექტირებად ნაწილს (%)",
-                  "Fixed coefficient representing the non-correctable part of contract value (%)",
+        {workType !== "2" && (
+          <div className="mt-6">
+            <p className="bpg_mrgvlovani_caps font-bold">
+              {t(
+                "4. ფასთა ინდექსაციის ფორმულა",
+                "4. Price Indexation Formula",
+              )}
+            </p>
+            <p className="bpg_mrgvlovani_caps mt-2 text-sm">
+              {t(
+                "გთხოვთ, შეავსოთ შემდეგი ველები (მიუთითეთ პროცენტული ოდენობა):",
+                "Please fill in the following fields (specify percentage):",
+              )}
+            </p>
+            <div className="mt-4 space-y-4">
+              <div>
+                <label className="bpg_mrgvlovani_caps block text-sm font-medium text-[#01389c] mb-2">
+                  {t(
+                    "ფიქსირებული კოეფიციენტი, რომელიც წარმოადგენს სახელშეკრულებო ღირებულების არაკორექტირებად ნაწილს (%)",
+                    "Fixed coefficient representing the non-correctable part of contract value (%)",
+                  )}
+                </label>
+                <input
+                  type="number"
+                  value={fixedCoefficient}
+                  onChange={(e) => setFixedCoefficient(e.target.value)}
+                  min="0"
+                  step="0.01"
+                  className={`w-full md:w-72 rounded-md border px-3 py-2 text-sm outline-none focus:border-[#01389c] focus:ring-1 focus:ring-[#01389c] ${
+                    fixedValid ? "border-gray-300" : "border-red-500"
+                  }`}
+                />
+                {!fixedValid && (
+                  <p className="bpg_mrgvlovani_caps mt-1 text-xs text-red-600">
+                    {t("მნიშვნელობა უნდა იყოს 0-100%", "Value must be between 0-100%")}
+                  </p>
                 )}
-              </label>
-              <input
-                type="number"
-                value={fixedCoefficient}
-                onChange={(e) => setFixedCoefficient(e.target.value)}
+              </div>
 
-                min="0"
-                step="0.01"
-                className={`w-full md:w-72 rounded-md border px-3 py-2 text-sm outline-none focus:border-[#01389c] focus:ring-1 focus:ring-[#01389c] ${
-                  fixedValid ? "border-gray-300" : "border-red-500"
-                }`}
-              />
-              {!fixedValid && (
-                <p className="bpg_mrgvlovani_caps mt-1 text-xs text-red-600">
-                  {t("მნიშვნელობა უნდა იყოს 0-100%", "Value must be between 0-100%")}
+              <div>
+                <label className="bpg_mrgvlovani_caps block text-sm font-medium text-[#01389c] mb-2">
+                  {t(
+                    "ინდექსაციას დაქვემდებარებული კომპონენტის - ბიტუმის - პროპორცია (ხვედრითი წილი) (%)",
+                    "Indexable component - Bitumen - proportion (%)",
+                  )}
+                </label>
+                <input
+                  type="number"
+                  value={bitumenProportion}
+                  onChange={(e) => setBitumenProportion(e.target.value)}
+                  min="0"
+                  step="0.01"
+                  className={`w-full md:w-72 rounded-md border px-3 py-2 text-sm outline-none focus:border-[#01389c] focus:ring-1 focus:ring-[#01389c] ${
+                    bitumenValid ? "border-gray-300" : "border-red-500"
+                  }`}
+                />
+                {!bitumenValid && (
+                  <p className="bpg_mrgvlovani_caps mt-1 text-xs text-red-600">
+                    {t("მნიშვნელობა უნდა იყოს 0-100%", "Value must be between 0-100%")}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="bpg_mrgvlovani_caps block text-sm font-medium text-[#01389c] mb-2">
+                  {t(
+                    "ინდექსაციას დაქვემდებარებული კომპონენტის - დიზელის - პროპორცია (ხვედრითი წილი) (%)",
+                    "Indexable component - Diesel - proportion (%)",
+                  )}
+                </label>
+                <input
+                  type="number"
+                  value={dieselProportion}
+                  onChange={(e) => setDieselProportion(e.target.value)}
+                  min="0"
+                  step="0.01"
+                  className={`w-full md:w-72 rounded-md border px-3 py-2 text-sm outline-none focus:border-[#01389c] focus:ring-1 focus:ring-[#01389c] ${
+                    dieselValid ? "border-gray-300" : "border-red-500"
+                  }`}
+                />
+                {!dieselValid && (
+                  <p className="bpg_mrgvlovani_caps mt-1 text-xs text-red-600">
+                    {t("მნიშვნელობა უნდა იყოს 0-100%", "Value must be between 0-100%")}
+                  </p>
+                )}
+              </div>
+              {allFieldsFilled && !hasInvalidField && !isSumValid && (
+                <p className="bpg_mrgvlovani_caps text-sm text-red-600">
+                  {t(
+                    "ჯამი უნდა იყოს ზუსტად 100%",
+                    "Total must be exactly 100%",
+                  )}
                 </p>
               )}
             </div>
-
-            <div>
-              <label className="bpg_mrgvlovani_caps block text-sm font-medium text-[#01389c] mb-2">
-                {t(
-                  "ინდექსაციას დაქვემდებარებული კომპონენტის - ბიტუმის - პროპორცია (ხვედრითი წილი) (%)",
-                  "Indexable component - Bitumen - proportion (%)",
-                )}
-              </label>
-              <input
-                type="number"
-                value={bitumenProportion}
-                onChange={(e) => setBitumenProportion(e.target.value)}
-                min="0"
-                step="0.01"
-                className={`w-full md:w-72 rounded-md border px-3 py-2 text-sm outline-none focus:border-[#01389c] focus:ring-1 focus:ring-[#01389c] ${
-                  bitumenValid ? "border-gray-300" : "border-red-500"
-                }`}
-              />
-              {!bitumenValid && (
-                <p className="bpg_mrgvlovani_caps mt-1 text-xs text-red-600">
-                  {t("მნიშვნელობა უნდა იყოს 0-100%", "Value must be between 0-100%")}
-                </p>
-              )}
-            </div>
-
-            <div>
-              <label className="bpg_mrgvlovani_caps block text-sm font-medium text-[#01389c] mb-2">
-                {t(
-                  "ინდექსაციას დაქვემდებარებული კომპონენტის - დიზელის - პროპორცია (ხვედრითი წილი) (%)",
-                  "Indexable component - Diesel - proportion (%)",
-                )}
-              </label>
-              <input
-                type="number"
-                value={dieselProportion}
-                onChange={(e) => setDieselProportion(e.target.value)}
-                min="0"
-                step="0.01"
-                className={`w-full md:w-72 rounded-md border px-3 py-2 text-sm outline-none focus:border-[#01389c] focus:ring-1 focus:ring-[#01389c] ${
-                  dieselValid ? "border-gray-300" : "border-red-500"
-                }`}
-              />
-              {!dieselValid && (
-                <p className="bpg_mrgvlovani_caps mt-1 text-xs text-red-600">
-                  {t("მნიშვნელობა უნდა იყოს 0-100%", "Value must be between 0-100%")}
-                </p>
-              )}
-            </div>
-            {allFieldsFilled && !hasInvalidField && !isSumValid && (
-              <p className="bpg_mrgvlovani_caps text-sm text-red-600">
-                {t(
-                  "ჯამი უნდა იყოს ზუსტად 100%",
-                  "Total must be exactly 100%",
-                )}
-              </p>
-            )}
           </div>
-        </div>
+        )}
 
         <div className="mt-8">
             <p className="bpg_mrgvlovani_caps mb-4 font-bold">
               {t(
-                "6. ინფორმაცია შესრულებული სამუშაოს შესახებ",
-                "6. Information about the performed work",
+                "5. ინფორმაცია შესრულებული სამუშაოს შესახებ",
+                "5. Information about the performed work",
               )}
             </p>
             <div className="space-y-4 md:hidden">
