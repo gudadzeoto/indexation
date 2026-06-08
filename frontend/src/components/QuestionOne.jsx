@@ -11,6 +11,8 @@ const API_BASE = import.meta.env.VITE_API_BASE || "http://192.168.0.74:5002/api"
 const QuestionOne = ({
   language = "GE",
   questionnaireType = "questionnaire1",
+  questionnaireMode = "default",
+  indexationMoneyShare = 0.7,
   baseSectionOnly = false,
   showBasePeriod = true,
   extraSection = null,
@@ -33,6 +35,8 @@ const QuestionOne = ({
   const [localContractNumber, setLocalContractNumber] = useState("");
   const [localCustomer, setLocalCustomer] = useState("");
   const [basePeriod, setBasePeriod] = useState("");
+  const isQuestionnaireThreeMode = questionnaireMode === "questionnaire3";
+  const effectiveBasePeriod = isQuestionnaireThreeMode ? "2" : basePeriod;
   const [tenderOpenDate, setTenderOpenDate] = useState("");
   const [workCompletion, setWorkCompletion] = useState("");
   const [tableRows, setTableRows] = useState([
@@ -61,7 +65,8 @@ const QuestionOne = ({
   const customer = parentCustomer ?? localCustomer;
   const setCustomer = parentSetCustomer || setLocalCustomer;
   const allowedTenderMonths = new Set(["2022-02", "2022-03", "2022-04"]);
-  const tenderMonthOptions = ["2022-02", "2022-03", "2022-04"];
+  const tenderDateMin = isQuestionnaireThreeMode ? "2027-01-01" : "2022-02-01";
+  const tenderDateMax = isQuestionnaireThreeMode ? undefined : "2022-04-30";
 
   const monthLabels = {
     "2022-01": t("იანვარი", "January"),
@@ -69,6 +74,10 @@ const QuestionOne = ({
     "2022-03": t("მარტი", "March"),
     "2022-04": t("აპრილი", "April"),
   };
+
+  const yearOptions = isQuestionnaireThreeMode
+    ? Array.from({ length: 9 }, (_, i) => String(2027 + i))
+    : ["2022", "2023", "2024", "2025", "2026"];
 
   const subtractDays = (dateValue, daysToSubtract) => {
     if (!dateValue) return null;
@@ -127,6 +136,8 @@ const QuestionOne = ({
 
   const isBasePeriodDisabled =
     !companyData || !contractNumber.trim() || !customer.trim();
+  const canShowQuestionnaireThreeSections =
+    !isQuestionnaireThreeMode || !isBasePeriodDisabled;
 
   const canShowExtraSection =
     !hideExtraUntilBaseFieldsFilled || !isBasePeriodDisabled;
@@ -171,10 +182,10 @@ const QuestionOne = ({
   }, [isBasePeriodDisabled, basePeriod]);
 
   useEffect(() => {
-    if (basePeriod !== "2" && tenderOpenDate) {
+    if (effectiveBasePeriod !== "2" && tenderOpenDate) {
       setTenderOpenDate("");
     }
-  }, [basePeriod, tenderOpenDate]);
+  }, [effectiveBasePeriod, tenderOpenDate]);
 
   useEffect(() => {
     if (!confirmed && isDocModalOpen) {
@@ -192,7 +203,7 @@ const QuestionOne = ({
   }, [tableRows]);
 
   useEffect(() => {
-    if (basePeriod === "1") {
+    if (effectiveBasePeriod === "1") {
       console.log("BASE INDEX (radio 1)", {
         baseMonth: "2022-02",
         baseIndex: 100,
@@ -201,7 +212,7 @@ const QuestionOne = ({
       return;
     }
 
-    if (basePeriod === "2" && tenderOpenDate) {
+    if (effectiveBasePeriod === "2" && tenderOpenDate) {
       const minus28 = subtractDays(tenderOpenDate, 28);
       if (!minus28) return;
 
@@ -215,7 +226,7 @@ const QuestionOne = ({
         baseIndexFromDb,
       });
     }
-  }, [basePeriod, tenderOpenDate, indexesData]);
+  }, [effectiveBasePeriod, tenderOpenDate, indexesData]);
 
   // Recalculate all rows when base period or indexes data changes
   useEffect(() => {
@@ -225,7 +236,7 @@ const QuestionOne = ({
         const costNum = Number(row.cost);
         if (Number.isNaN(costNum)) return row;
 
-        const money = (costNum * 0.7).toFixed(2);
+        const money = (costNum * indexationMoneyShare).toFixed(2);
 
         if (!row.year || !row.month || !row.day) {
           return { ...row, money, index: "", result: "" };
@@ -242,9 +253,9 @@ const QuestionOne = ({
         const year49 = dateMinus49.getUTCFullYear();
 
         const bKey =
-          basePeriod === "1"
+          effectiveBasePeriod === "1"
             ? "2022-02"
-            : basePeriod === "2" && tenderMinus28MonthKey
+            : effectiveBasePeriod === "2" && tenderMinus28MonthKey
               ? (() => {
                   const d = subtractDays(tenderOpenDate, 28);
                   return d
@@ -255,7 +266,7 @@ const QuestionOne = ({
 
         const rowKey = `${year49}-${String(month49).padStart(2, "0")}`;
         const rowIdx = indexesData[rowKey];
-        const baseIdx = basePeriod === "1" ? 100 : indexesData[bKey];
+        const baseIdx = effectiveBasePeriod === "1" ? 100 : indexesData[bKey];
         console.log("Batch recalc:", { rowKey, rowIdx, bKey, baseIdx });
         const ratio =
           rowIdx != null && baseIdx != null ? rowIdx / baseIdx : null;
@@ -289,7 +300,7 @@ const QuestionOne = ({
       }),
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [basePeriod, tenderOpenDate, indexesData]);
+  }, [effectiveBasePeriod, tenderOpenDate, indexesData, indexationMoneyShare]);
 
   const selectedTenderMonth = tenderOpenDate ? tenderOpenDate.slice(0, 7) : "";
   const tenderMinus28Date = subtractDays(tenderOpenDate, 28);
@@ -298,16 +309,16 @@ const QuestionOne = ({
     : "";
 
   const baseMonthText =
-    basePeriod === "1"
+    effectiveBasePeriod === "1"
       ? t("თებერვალი", "February")
-      : basePeriod === "2" && tenderMinus28MonthKey
+      : effectiveBasePeriod === "2" && tenderMinus28MonthKey
         ? monthLabels[tenderMinus28MonthKey] || tenderMinus28MonthKey
         : "";
 
   const basePeriodTextForDoc =
-    basePeriod === "1"
+    effectiveBasePeriod === "1"
       ? t("2022 წლის თებერვალი", "February 2022")
-      : basePeriod === "2" && tenderMinus28Date
+      : effectiveBasePeriod === "2" && tenderMinus28Date
         ? t(
             `${tenderMinus28Date.getUTCFullYear()} წლის ${monthLabels[tenderMinus28MonthKey] || tenderMinus28MonthKey}`,
             `${monthLabels[tenderMinus28MonthKey] || tenderMinus28MonthKey} ${tenderMinus28Date.getUTCFullYear()}`,
@@ -323,9 +334,9 @@ const QuestionOne = ({
 
   // base month key: "2022-2" for option 1, derived month for option 2
   const baseMonthKey =
-    basePeriod === "1"
+    effectiveBasePeriod === "1"
       ? "2022-2"
-      : basePeriod === "2" && tenderMinus28MonthKey
+      : effectiveBasePeriod === "2" && tenderMinus28MonthKey
         ? `${tenderMinus28Date.getUTCFullYear()}-${tenderMinus28Date.getUTCMonth() + 1}`
         : "";
 
@@ -373,7 +384,7 @@ const QuestionOne = ({
       return { ...row, money: "", index: "", result: "" };
     }
 
-    const money = (costNum * 0.7).toFixed(2);
+    const money = (costNum * indexationMoneyShare).toFixed(2);
 
     // Date minus 49 days
     if (!row.year || !row.month || !row.day) {
@@ -399,9 +410,9 @@ const QuestionOne = ({
 
     // Get base month key
     const bKey =
-      basePeriod === "1"
+      effectiveBasePeriod === "1"
         ? "2022-02"
-        : basePeriod === "2" && tenderMinus28MonthKey
+        : effectiveBasePeriod === "2" && tenderMinus28MonthKey
           ? (() => {
               const d = subtractDays(tenderOpenDate, 28);
               return d
@@ -413,7 +424,7 @@ const QuestionOne = ({
     // Get indexes
     const rowKey = `${year49}-${String(month49).padStart(2, "0")}`;
     const rowIdx = indexesData[rowKey];
-    const baseIdx = basePeriod === "1" ? 100 : indexesData[bKey];
+    const baseIdx = effectiveBasePeriod === "1" ? 100 : indexesData[bKey];
 
     console.log("Index calc:", {
       rowKey,
@@ -421,7 +432,7 @@ const QuestionOne = ({
       bKey,
       baseIdx,
       indexesDataKeys: Object.keys(indexesData).slice(0, 5),
-      basePeriod,
+      basePeriod: effectiveBasePeriod,
       dateStr,
       dateMinus49: dateMinus49.toISOString(),
     });
@@ -670,10 +681,15 @@ const QuestionOne = ({
           </>
         )}
 
-        {!baseSectionOnly && showBasePeriod && basePeriod === "2" && (
+        {!baseSectionOnly &&
+          canShowQuestionnaireThreeSections &&
+          (isQuestionnaireThreeMode ||
+            (showBasePeriod && effectiveBasePeriod === "2")) && (
           <div className="mt-6">
             <p className="bpg_mrgvlovani_caps font-bold">
-              {t("2. ტენდერის გახსნის თარიღი", "2. Date of tender opening")}
+              {isQuestionnaireThreeMode
+                ? t("1. ტენდერის გახსნის თარიღი", "1. Date of tender opening")
+                : t("2. ტენდერის გახსნის თარიღი", "2. Date of tender opening")}
             </p>
             <p className="bpg_mrgvlovani_caps mt-2 text-xs italic text-gray-600">
               {t(
@@ -700,16 +716,20 @@ const QuestionOne = ({
                 <input
                   type="date"
                   value={tenderOpenDate}
-                  min="2022-02-01"
-                  max="2022-04-30"
+                  min={tenderDateMin}
+                  max={tenderDateMax}
                   onChange={(e) => {
                     const selectedDate = e.target.value;
                     const selectedMonth = selectedDate.slice(0, 7);
-                    setTenderOpenDate(
-                      allowedTenderMonths.has(selectedMonth)
-                        ? selectedDate
-                        : "",
-                    );
+
+                    if (isQuestionnaireThreeMode) {
+                      setTenderOpenDate(
+                        selectedDate >= tenderDateMin ? selectedDate : "",
+                      );
+                      return;
+                    }
+
+                    setTenderOpenDate(allowedTenderMonths.has(selectedMonth) ? selectedDate : "");
                   }}
                   className="bpg_mrgvlovani_caps w-full bg-transparent text-sm text-[#01389c] outline-none"
                 />
@@ -727,8 +747,9 @@ const QuestionOne = ({
         {canShowExtraSection && extraSection}
 
         {!baseSectionOnly &&
+          !isQuestionnaireThreeMode &&
           showBasePeriod &&
-          (basePeriod === "1" || basePeriod === "2") && (
+          (effectiveBasePeriod === "1" || effectiveBasePeriod === "2") && (
             <div className="mt-6">
               <p className="bpg_mrgvlovani_caps font-bold">
                 {t(
@@ -777,14 +798,21 @@ const QuestionOne = ({
           )}
 
         {!baseSectionOnly &&
-          showBasePeriod &&
-          (basePeriod === "1" || basePeriod === "2") && (
+          canShowQuestionnaireThreeSections &&
+          ((isQuestionnaireThreeMode && effectiveBasePeriod === "2") ||
+            (showBasePeriod &&
+              (effectiveBasePeriod === "1" || effectiveBasePeriod === "2"))) && (
             <div className="mt-8">
               <p className="bpg_mrgvlovani_caps mb-4 font-bold">
-                {t(
-                  "4. ინფორმაცია შესრულებული სამუშაოს შესახებ",
-                  "4. Information about the performed work",
-                )}
+                {isQuestionnaireThreeMode
+                  ? t(
+                      "2. ინფორმაცია შესრულებული სამუშაოს შესახებ",
+                      "2. Information about the performed work",
+                    )
+                  : t(
+                      "4. ინფორმაცია შესრულებული სამუშაოს შესახებ",
+                      "4. Information about the performed work",
+                    )}
               </p>
               <div className="space-y-4 md:hidden">
                 {tableRows.map((row, index) => (
@@ -843,7 +871,7 @@ const QuestionOne = ({
                           <option value="" disabled>
                             {t("წელი", "Year")}
                           </option>
-                          {["2022", "2023", "2024", "2025", "2026"].map((y) => (
+                          {yearOptions.map((y) => (
                             <option key={y} value={y}>
                               {y}
                             </option>
@@ -1096,7 +1124,7 @@ const QuestionOne = ({
                             <option value="" disabled>
                               {t("წელი", "Year")}
                             </option>
-                            {["2022", "2023", "2024", "2025", "2026"].map(
+                            {yearOptions.map(
                               (y) => (
                                 <option key={y} value={y}>
                                   {y}
@@ -1279,7 +1307,10 @@ const QuestionOne = ({
                   type="button"
                   onClick={async () => {
                     try {
-                      const res = await fetch(`${API_BASE}/report`, {
+                      const reportEndpoint =
+                        questionnaireType === "questionnaire3" ? "report2" : "report";
+
+                      const res = await fetch(`${API_BASE}/${reportEndpoint}`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({

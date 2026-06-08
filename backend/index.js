@@ -7,6 +7,7 @@ const personaltitleRoute = require("./routes/personaltitle");
 const indexesRoute = require("./routes/indexes");
 const reportRoute = require("./routes/report");
 const report1Route = require("./routes/report1");
+const report2Route = require("./routes/report2");
 
 
 const app = express();
@@ -42,6 +43,7 @@ app.use("/api/personaltitle", personaltitleRoute);
 app.use("/api/indexes", indexesRoute);
 app.use("/api/report", reportRoute);
 app.use("/api/report1", report1Route);
+app.use("/api/report2", report2Route);
 
 // health check with database status
 app.get("/", async (req, res) => {

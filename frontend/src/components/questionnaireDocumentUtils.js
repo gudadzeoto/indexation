@@ -86,6 +86,13 @@ export const buildQuestionnaireDocumentContent = ({
         `Please be informed that according to the basics, principles and rules of using the price indexation defined by the #763 decree of the Government of Georgia, based on the filled information (base period - ${data.basePeriodText}), the reimbursement amount in certain periods amounted to:`,
       ),
     },
+    questionnaire3: {
+      title: t("ფასთა ინდექსაციის კალკულატორი", "Price Indexation Calculator"),
+      description: t(
+        `გაცნობებთ, რომ საქართველოს მთავრობის #245 დადგენილებით განსაზღვრული ფასთა ინდექსაციის გამოყენების საფუძვლების, პრინციპებისა და წესის თანახმად, თქვენს მიერ შევსებულ ინფორმაციაზე დაყრდნობით (საბაზო პერიოდი - ${data.basePeriodText}) ფასთა ინდექსაციის კალკულატორის გამოყენებით მიღებული თანხები შეადგენს:`,
+        `Please be informed that according to the basics, principles and rules of using the price indexation defined by the #245 decree of the Government of Georgia, based on the filled information (base period - ${data.basePeriodText}), the reimbursement amount in certain periods amounted to:`,
+      ),
+    },
   };
 
   const cfg = configs[questionnaireType];
