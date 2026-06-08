@@ -15,9 +15,21 @@ const Header = ({
   setActiveQuestion = () => {},
 }) => {
   const questionnaireButtons = [
-    { id: 1, label: "დადგენილება N753" },
-    { id: 2, label: "დადგენილება N245 გარდამავალი" },
-    { id: 3, label: "დადგენილება N245 მუდმივი" },
+    {
+      id: 1,
+      labelGe: "დადგენილება N753",
+      labelEn: "Decree N753",
+    },
+    {
+      id: 2,
+      labelGe: "დადგენილება N245 გარდამავალი",
+      labelEn: "Decree N245 Transitional",
+    },
+    {
+      id: 3,
+      labelGe: "დადგენილება N245 მუდმივი",
+      labelEn: "Decree N245 Permanent",
+    },
   ];
 
   const toggleLanguage = () => {
@@ -92,7 +104,9 @@ const Header = ({
                     >
                       {question.id}
                     </span>
-                    <span className="leading-tight">{question.label}</span>
+                    <span className="leading-tight">
+                      {language === "GE" ? question.labelGe : question.labelEn}
+                    </span>
                   </button>
                 );
               })}

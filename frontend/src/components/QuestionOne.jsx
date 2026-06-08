@@ -1386,6 +1386,7 @@ const QuestionOne = ({
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         language={language}
+        questionnaireType={questionnaireType}
       />
     </section>
   );
