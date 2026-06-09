@@ -43,7 +43,11 @@ const Footer = ({ language = "GE" }) => {
             : "National Statistics Office of Georgia (Geostat)"}
           <br />
           <a
-            href="https://www.geostat.ge/ka/page/monacemta-gamoyenebis-pirobebi"
+            href={
+              language === "GE"
+                ? "https://www.geostat.ge/ka/page/monacemta-gamoyenebis-pirobebi"
+                : "https://www.geostat.ge/en/page/monacemta-gamoyenebis-pirobebi"
+            }
             target="_blank"
             rel="noopener noreferrer"
             className="text-blue-600 hover:underline"
