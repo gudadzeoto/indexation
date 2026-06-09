@@ -6,6 +6,18 @@ import plusIcon from "../assets/images/plus.png";
 
 const API_BASE = import.meta.env.VITE_API_BASE || "http://192.168.0.74:5002/api";
 const TENDER_MIN_DATE = "2022-02-01";
+const SECOND_PERIOD_MIN_MONTH_KEY = "2026-06";
+
+const compareMonthKeys = (a, b) => {
+  const [yearA, monthA] = a.split("-").map(Number);
+  const [yearB, monthB] = b.split("-").map(Number);
+
+  if (yearA !== yearB) {
+    return yearA - yearB;
+  }
+
+  return monthA - monthB;
+};
 
 const getLastDayOfMonth = (year, month) =>
   new Date(Number(year), Number(month), 0).getDate();
@@ -80,6 +92,7 @@ const QuestionTwo = ({ language = "GE" }) => {
   const [contractNumber, setContractNumber] = useState("");
   const [customer, setCustomer] = useState("");
   const [confirmed, setConfirmed] = useState(false);
+  const [isWorkPeriodWarningOpen, setIsWorkPeriodWarningOpen] = useState(false);
 
   const subtractDays = (dateValue, daysToSubtract) => {
     if (!dateValue) return null;
@@ -104,7 +117,42 @@ const QuestionTwo = ({ language = "GE" }) => {
     const lastDay = getLastDayOfMonth(maxYear, maxMonth);
     return `${maxYear}-${String(maxMonth).padStart(2, "0")}-${String(lastDay).padStart(2, "0")}`;
   })();
-  const latestIndexedMonthLabel = formatMonthKeyLabel(maxTenderMonthKey, language);
+
+  const availableTenderMonthKeysForPeriodTwo = Object.keys(indexesData)
+    .filter((monthKey) => compareMonthKeys(monthKey, SECOND_PERIOD_MIN_MONTH_KEY) >= 0)
+    .sort(compareMonthKeys);
+
+  const tenderMonthsByYearForPeriodTwo = availableTenderMonthKeysForPeriodTwo.reduce(
+    (acc, monthKey) => {
+      const [year, month] = monthKey.split("-");
+      if (!acc[year]) {
+        acc[year] = [];
+      }
+      acc[year].push(month);
+      return acc;
+    },
+    {},
+  );
+
+  const tenderYearOptionsForPeriodTwo = Object.keys(tenderMonthsByYearForPeriodTwo).sort(
+    (a, b) => Number(a) - Number(b),
+  );
+
+  const [selectedTenderYear, selectedTenderMonth, selectedTenderDay] = tenderOpenDate
+    ? tenderOpenDate.split("-")
+    : ["", "", ""];
+
+  const tenderMonthOptionsForSelectedYear = selectedTenderYear
+    ? (tenderMonthsByYearForPeriodTwo[selectedTenderYear] || [])
+    : [];
+
+  const tenderDayOptionsForSelectedMonth =
+    selectedTenderYear && selectedTenderMonth
+      ? Array.from(
+          { length: getLastDayOfMonth(selectedTenderYear, selectedTenderMonth) },
+          (_, dayIndex) => String(dayIndex + 1).padStart(2, "0"),
+        )
+      : [];
 
   let baseMonthText = "";
   if (indexationPeriod === "3") {
@@ -139,16 +187,18 @@ const QuestionTwo = ({ language = "GE" }) => {
         const map = {};
         const bitumMap = {};
         const dieselMap = {};
-        let latest2026Month = 0;
+        let latestMonthKey = "";
 
         rows.forEach((r) => {
           const hasIndexValue =
             r.indexes !== null && r.indexes !== undefined && r.indexes !== "";
 
           if (hasIndexValue) {
-            map[`${r.year}-${String(r.month).padStart(2, "0")}`] = Number(
-              r.indexes,
-            );
+            const monthKey = `${r.year}-${String(r.month).padStart(2, "0")}`;
+            map[monthKey] = Number(r.indexes);
+            if (!latestMonthKey || compareMonthKeys(monthKey, latestMonthKey) > 0) {
+              latestMonthKey = monthKey;
+            }
           }
 
           if (
@@ -171,16 +221,13 @@ const QuestionTwo = ({ language = "GE" }) => {
             );
           }
 
-          if (Number(r.year) === 2026 && hasIndexValue) {
-            latest2026Month = Math.max(latest2026Month, Number(r.month) || 0);
-          }
         });
 
         setIndexesData(map);
         setBitumIndexesData(bitumMap);
         setDieselIndexesData(dieselMap);
-        if (latest2026Month >= 1 && latest2026Month <= 12) {
-          setMaxTenderMonthKey(`2026-${String(latest2026Month).padStart(2, "0")}`);
+        if (latestMonthKey) {
+          setMaxTenderMonthKey(latestMonthKey);
         }
       })
       .catch(() => {
@@ -189,6 +236,74 @@ const QuestionTwo = ({ language = "GE" }) => {
         setDieselIndexesData({});
       });
   }, []);
+
+  useEffect(() => {
+    if (indexationPeriod !== "2" || !tenderOpenDate) {
+      return;
+    }
+
+    const [year, month, day] = tenderOpenDate.split("-");
+    if (!year || !month || !day) {
+      setTenderOpenDate("");
+      return;
+    }
+
+    const selectedMonthKey = `${year}-${month}`;
+    if (!availableTenderMonthKeysForPeriodTwo.includes(selectedMonthKey)) {
+      setTenderOpenDate("");
+      return;
+    }
+
+    const maxDay = getLastDayOfMonth(year, month);
+    if (Number(day) > maxDay) {
+      setTenderOpenDate(`${year}-${month}-${String(maxDay).padStart(2, "0")}`);
+    }
+  }, [indexationPeriod, tenderOpenDate, availableTenderMonthKeysForPeriodTwo]);
+
+  const handleTenderDateChangeForPeriodOne = (selectedDate) => {
+    setTenderOpenDate(
+      selectedDate >= TENDER_MIN_DATE && selectedDate <= maxTenderDate ? selectedDate : "",
+    );
+  };
+
+  const handleTenderYearChangeForPeriodTwo = (nextYear) => {
+    const monthsForYear = tenderMonthsByYearForPeriodTwo[nextYear] || [];
+    if (!nextYear || monthsForYear.length === 0) {
+      setTenderOpenDate("");
+      return;
+    }
+
+    const nextMonth = monthsForYear.includes(selectedTenderMonth)
+      ? selectedTenderMonth
+      : monthsForYear[0];
+    const maxDay = getLastDayOfMonth(nextYear, nextMonth);
+    const nextDay = Math.min(Math.max(Number(selectedTenderDay || 1), 1), maxDay);
+
+    setTenderOpenDate(`${nextYear}-${nextMonth}-${String(nextDay).padStart(2, "0")}`);
+  };
+
+  const handleTenderMonthChangeForPeriodTwo = (nextMonth) => {
+    if (!selectedTenderYear || !nextMonth) {
+      setTenderOpenDate("");
+      return;
+    }
+
+    const maxDay = getLastDayOfMonth(selectedTenderYear, nextMonth);
+    const nextDay = Math.min(Math.max(Number(selectedTenderDay || 1), 1), maxDay);
+
+    setTenderOpenDate(
+      `${selectedTenderYear}-${nextMonth}-${String(nextDay).padStart(2, "0")}`,
+    );
+  };
+
+  const handleTenderDayChangeForPeriodTwo = (nextDay) => {
+    if (!selectedTenderYear || !selectedTenderMonth || !nextDay) {
+      setTenderOpenDate("");
+      return;
+    }
+
+    setTenderOpenDate(`${selectedTenderYear}-${selectedTenderMonth}-${nextDay}`);
+  };
 
   const calculateSum = () => {
     const fixed = Number(fixedCoefficient.replace(",", ".")) || 0;
@@ -297,7 +412,7 @@ const QuestionTwo = ({ language = "GE" }) => {
 
     return {
       money: money.toFixed(2),
-      index: indexValue.toFixed(3),
+      index: indexValue,
       pn: "",
       result: cappedResult.toFixed(2),
     };
@@ -315,6 +430,12 @@ const QuestionTwo = ({ language = "GE" }) => {
     });
 
     return Array.from(months).sort((a, b) => a - b);
+  };
+
+  const isWorkPeriodBeforeBaseMonth = (year, month) => {
+    if (!baseMonthKeyForCalc || !year || !month) return false;
+    const selectedMonthKey = `${year}-${String(month).padStart(2, "0")}`;
+    return compareMonthKeys(selectedMonthKey, baseMonthKeyForCalc) < 0;
   };
 
   const getMonthOptionLabel = (month) => {
@@ -356,6 +477,10 @@ const QuestionTwo = ({ language = "GE" }) => {
   const recalculateRow = (row) => {
     const costNum = Number(row.cost);
     if (row.cost === "" || Number.isNaN(costNum)) {
+      return { ...row, money: "", index: "", pn: "", result: "" };
+    }
+
+    if (isWorkPeriodBeforeBaseMonth(row.year, row.month)) {
       return { ...row, money: "", index: "", pn: "", result: "" };
     }
 
@@ -467,9 +592,24 @@ const QuestionTwo = ({ language = "GE" }) => {
   };
 
   const updateTableRowValues = (id, updates) => {
+    const hasPeriodUpdate =
+      Object.prototype.hasOwnProperty.call(updates, "year") ||
+      Object.prototype.hasOwnProperty.call(updates, "month");
+
+    if (hasPeriodUpdate) {
+      const currentRow = tableRows.find((row) => row.id === id);
+      if (currentRow) {
+        const nextRow = { ...currentRow, ...updates };
+        if (isWorkPeriodBeforeBaseMonth(nextRow.year, nextRow.month)) {
+          setIsWorkPeriodWarningOpen(true);
+        }
+      }
+    }
+
     setTableRows((prev) =>
       prev.map((row) => {
         if (row.id !== id) return row;
+
         return recalculateRow({ ...row, ...updates });
       }),
     );
@@ -657,38 +797,95 @@ const QuestionTwo = ({ language = "GE" }) => {
                 "The base period is determined by the month corresponding to 28 days before the tender opening date.",
               )}
             </p>
-            <div className="mt-4 w-full max-w-[320px]">
-              <div className="group flex items-center gap-2 rounded-xl border border-[#bfd6ff] bg-white px-3 py-2 transition-all duration-200 focus-within:border-[#01389c] focus-within:ring-2 focus-within:ring-[#d8e7ff]">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.7"
-                  className="h-5 w-5 text-[#4a6fb2]"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M8 2v3m8-3v3M3.5 9.5h17M5 5.5h14a1.5 1.5 0 0 1 1.5 1.5v11A1.5 1.5 0 0 1 19 19.5H5A1.5 1.5 0 0 1 3.5 18v-11A1.5 1.5 0 0 1 5 5.5z"
+            <div className="mt-4 w-full max-w-[420px]">
+              {indexationPeriod === "1" && (
+                <div className="group flex items-center gap-2 rounded-xl border border-[#bfd6ff] bg-white px-3 py-2 transition-all duration-200 focus-within:border-[#01389c] focus-within:ring-2 focus-within:ring-[#d8e7ff]">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.7"
+                    className="h-5 w-5 text-[#4a6fb2]"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M8 2v3m8-3v3M3.5 9.5h17M5 5.5h14a1.5 1.5 0 0 1 1.5 1.5v11A1.5 1.5 0 0 1 19 19.5H5A1.5 1.5 0 0 1 3.5 18v-11A1.5 1.5 0 0 1 5 5.5z"
+                    />
+                  </svg>
+                  <input
+                    type="date"
+                    value={tenderOpenDate}
+                    min={TENDER_MIN_DATE}
+                    max={maxTenderDate}
+                    onChange={(e) => handleTenderDateChangeForPeriodOne(e.target.value)}
+                    className="bpg_mrgvlovani_caps w-full bg-transparent text-sm text-[#01389c] outline-none"
                   />
-                </svg>
-                <input
-                  type="date"
-                  value={tenderOpenDate}
-                  min={TENDER_MIN_DATE}
-                  max={maxTenderDate}
-                  onChange={(e) => {
-                    const selectedDate = e.target.value;
-                    setTenderOpenDate(
-                      selectedDate >= TENDER_MIN_DATE && selectedDate <= maxTenderDate
-                        ? selectedDate
-                        : "",
-                    );
-                  }}
-                  className="bpg_mrgvlovani_caps w-full bg-transparent text-sm text-[#01389c] outline-none"
-                />
-              </div>
+                </div>
+              )}
+
+              {indexationPeriod === "2" && (
+                <div className="space-y-2">
+                  {availableTenderMonthKeysForPeriodTwo.length === 0 ? (
+                    <p className="bpg_mrgvlovani_caps rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-700">
+                      {t(
+                        "2026 წლის ივნისიდან ტენდერის თარიღისთვის ინდექსის მონაცემები ვერ მოიძებნა.",
+                        "No index data is available for tender dates starting from June 2026.",
+                      )}
+                    </p>
+                  ) : (
+                    <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+                      <select
+                        value={selectedTenderYear}
+                        onChange={(e) => handleTenderYearChangeForPeriodTwo(e.target.value)}
+                        className="bpg_mrgvlovani_caps h-10 w-full rounded-md border border-gray-300 px-3 text-sm outline-none focus:border-[#01389c]"
+                      >
+                        <option value="" disabled>
+                          {t("წელი", "Year")}
+                        </option>
+                        {tenderYearOptionsForPeriodTwo.map((yearOption) => (
+                          <option key={yearOption} value={yearOption}>
+                            {yearOption}
+                          </option>
+                        ))}
+                      </select>
+
+                      <select
+                        value={selectedTenderMonth}
+                        onChange={(e) => handleTenderMonthChangeForPeriodTwo(e.target.value)}
+                        disabled={!selectedTenderYear}
+                        className="bpg_mrgvlovani_caps h-10 w-full rounded-md border border-gray-300 px-3 text-sm outline-none focus:border-[#01389c] disabled:cursor-not-allowed disabled:bg-gray-100"
+                      >
+                        <option value="" disabled>
+                          {t("თვე", "Month")}
+                        </option>
+                        {tenderMonthOptionsForSelectedYear.map((monthOption) => (
+                          <option key={monthOption} value={monthOption}>
+                            {getMonthOptionLabel(Number(monthOption))}
+                          </option>
+                        ))}
+                      </select>
+
+                      <select
+                        value={selectedTenderDay}
+                        onChange={(e) => handleTenderDayChangeForPeriodTwo(e.target.value)}
+                        disabled={!selectedTenderYear || !selectedTenderMonth}
+                        className="bpg_mrgvlovani_caps h-10 w-full rounded-md border border-gray-300 px-3 text-sm outline-none focus:border-[#01389c] disabled:cursor-not-allowed disabled:bg-gray-100"
+                      >
+                        <option value="" disabled>
+                          {t("რიცხვი", "Date")}
+                        </option>
+                        {tenderDayOptionsForSelectedMonth.map((dayOption) => (
+                          <option key={dayOption} value={dayOption}>
+                            {Number(dayOption)}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -1331,6 +1528,31 @@ const QuestionTwo = ({ language = "GE" }) => {
         contractNumber={contractNumber}
         customer={customer}
       />
+
+      {isWorkPeriodWarningOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
+          <div className="w-full max-w-md rounded-xl bg-white p-5 shadow-2xl">
+            <h3 className="bpg_mrgvlovani_caps text-base font-bold text-[#01389c]">
+              {t("შენიშვნა", "Notice")}
+            </h3>
+            <p className="bpg_mrgvlovani_caps mt-3 text-sm text-[#334155]">
+              {t(
+                "სამუშაოს შესრულების პერიოდი არ შეიძლება იყოს საბაზო პერიოდზე ნაკლები.",
+                "The work period cannot be earlier than the base period.",
+              )}
+            </p>
+            <div className="mt-5 flex justify-end">
+              <button
+                type="button"
+                onClick={() => setIsWorkPeriodWarningOpen(false)}
+                className="bpg_mrgvlovani_caps rounded-md border border-[#01389c] px-4 py-2 text-sm font-semibold text-[#01389c] transition-colors hover:bg-[#01389c] hover:text-white"
+              >
+                {t("გასაგებია", "OK")}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
