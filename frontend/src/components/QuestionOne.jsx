@@ -670,12 +670,17 @@ const QuestionOne = ({
                   disabled={isBasePeriodDisabled}
                   className={`mt-1 accent-[#01389c] ${isBasePeriodDisabled ? "cursor-not-allowed" : "cursor-pointer"}`}
                 />
-                <span className="bpg_mrgvlovani_caps text-sm">
-                  {t(
-                    "მიმდინარე * და 2022 წლის 1 მაისამდე გამოცხადებული ტენდერების ფარგლებში შესრულებული და შემდგომში ანაზღაურებული სამუშაოები",
-                    "Work performed and subsequently reimbursed within the framework of current * and tenders announced before May 1, 2022",
-                  )}
-                </span>
+                <div>
+                  <span className="bpg_mrgvlovani_caps text-sm">
+                    {t(
+                      "მიმდინარე * და 2022 წლის 1 მაისამდე გამოცხადებული ტენდერების ფარგლებში შესრულებული და შემდგომში ანაზღაურებული სამუშაოები",
+                      "Work performed and subsequently reimbursed within the framework of current * and tenders announced before May 1, 2022",
+                    )}
+                  </span>
+                  <p className="bpg_mrgvlovani_caps mt-1 text-xs italic text-[#01389c]">
+                    {t("2022 წლის 27 აპრილის მდგომარეობით*", "As of April 27, 2022*")}
+                  </p>
+                </div>
               </label>
             </div>
           </>

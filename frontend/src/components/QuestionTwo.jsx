@@ -412,7 +412,7 @@ const QuestionTwo = ({ language = "GE" }) => {
 
     return {
       money: money.toFixed(2),
-      index: indexValue,
+      index: indexValue.toFixed(2),
       pn: "",
       result: cappedResult.toFixed(2),
     };
@@ -768,12 +768,17 @@ const QuestionTwo = ({ language = "GE" }) => {
               onChange={(e) => setIndexationPeriod(e.target.value)}
               className="mt-1 cursor-pointer accent-[#01389c]"
             />
-            <span className="bpg_mrgvlovani_caps text-sm">
-              {t(
-                "მიმდინარე და 2026 წლის პირველ ივნისამდე გამოცახდებული ტენდერების ფარგლებში შესრულებული სამუშაოები.",
-                "Works performed under current contracts and tenders announced before June 1, 2026",
-              )}
-            </span>
+            <div>
+              <span className="bpg_mrgvlovani_caps text-sm">
+                {t(
+                  "მიმდინარე და 2026 წლის პირველ ივნისამდე გამოცახდებული ტენდერების ფარგლებში შესრულებული სამუშაოები.",
+                  "Works performed under current contracts and tenders announced before June 1, 2026",
+                )}
+              </span>
+              <p className="bpg_mrgvlovani_caps mt-1 text-xs italic text-[#01389c]">
+                {t("2026 წლის 3 ივნისის მდგომარეობით*", "As of June 3, 2026*")}
+              </p>
+            </div>
           </label>
         </div>
 

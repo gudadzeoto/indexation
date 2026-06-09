@@ -59,9 +59,46 @@ const DocumentGenerationModal = ({
             <table className="w-full min-w-[900px] border-collapse text-xs md:text-sm">
               <thead>
                 <tr className="bg-[#01389c] text-white">
-                  <th className="bpg_mrgvlovani_caps border border-[#4a6fb2] px-2 py-2 text-center">
+                  <th
+                    rowSpan={2}
+                    className="bpg_mrgvlovani_caps border border-[#4a6fb2] px-2 py-2 text-center"
+                  >
                     {content.tableHeaders.number}
                   </th>
+                  <th
+                    colSpan={3}
+                    className="bpg_mrgvlovani_caps border border-[#4a6fb2] px-2 py-2 text-center"
+                  >
+                    {content.tableHeaders.workPeriod}
+                  </th>
+                  <th
+                    rowSpan={2}
+                    className="bpg_mrgvlovani_caps border border-[#4a6fb2] px-2 py-2 text-center"
+                  >
+                    {content.tableHeaders.cost}
+                  </th>
+                  {showMoneyColumn && (
+                    <th
+                      rowSpan={2}
+                      className="bpg_mrgvlovani_caps border border-[#4a6fb2] px-2 py-2 text-center"
+                    >
+                      {content.tableHeaders.money}
+                    </th>
+                  )}
+                  <th
+                    rowSpan={2}
+                    className="bpg_mrgvlovani_caps border border-[#4a6fb2] px-2 py-2 text-center"
+                  >
+                    {content.tableHeaders.index}
+                  </th>
+                  <th
+                    rowSpan={2}
+                    className="bpg_mrgvlovani_caps border border-[#4a6fb2] px-2 py-2 text-center"
+                  >
+                    {content.tableHeaders.result}
+                  </th>
+                </tr>
+                <tr className="bg-[#01389c] text-white">
                   <th className="bpg_mrgvlovani_caps border border-[#4a6fb2] px-2 py-2 text-center">
                     {content.tableHeaders.year}
                   </th>
@@ -70,20 +107,6 @@ const DocumentGenerationModal = ({
                   </th>
                   <th className="bpg_mrgvlovani_caps border border-[#4a6fb2] px-2 py-2 text-center">
                     {content.tableHeaders.day}
-                  </th>
-                  <th className="bpg_mrgvlovani_caps border border-[#4a6fb2] px-2 py-2 text-center">
-                    {content.tableHeaders.cost}
-                  </th>
-                  {showMoneyColumn && (
-                    <th className="bpg_mrgvlovani_caps border border-[#4a6fb2] px-2 py-2 text-center">
-                      {content.tableHeaders.money}
-                    </th>
-                  )}
-                  <th className="bpg_mrgvlovani_caps border border-[#4a6fb2] px-2 py-2 text-center">
-                    {content.tableHeaders.index}
-                  </th>
-                  <th className="bpg_mrgvlovani_caps border border-[#4a6fb2] px-2 py-2 text-center">
-                    {content.tableHeaders.result}
                   </th>
                 </tr>
               </thead>

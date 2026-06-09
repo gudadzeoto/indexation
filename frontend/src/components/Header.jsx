@@ -39,6 +39,21 @@ const Header = ({
   const fontClass =
     language === "GE" ? "bpg_mrgvlovani_caps" : "bpg_mrgvlovani_caps";
 
+  const iconTitles = {
+    methodology:
+      language === "GE"
+        ? "მშენებლობის ღირებულების ინდექსის გაანგარიშების მეთოდოლოგია"
+        : "Construction Cost Index Calculation Methodology",
+    decree753:
+      language === "GE"
+        ? "„საქართველოს მთავრობის განკარგულება №753“"
+        : '"Decree of the Government of Georgia No. 753"',
+    timeSeries:
+      language === "GE"
+        ? "მშენებლობის ღირებულების ინდექსის დროითი მწრკივები"
+        : "Construction Cost Index Time Series",
+  };
+
   return (
     <header
       className={`relative w-full flex justify-center ${fontClass}`}
@@ -74,6 +89,7 @@ const Header = ({
                 href="https://www.geostat.ge/media/61536/CCI-Metodologia.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
+                title={iconTitles.methodology}
                 aria-label="Test icon 1"
                 className="flex h-9 w-9 items-center justify-center rounded-sm border border-white bg-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg sm:h-10 sm:w-10"
               >
@@ -87,6 +103,7 @@ const Header = ({
                 href="https://matsne.gov.ge/ka/document/view/5458532?publication=0"
                 target="_blank"
                 rel="noopener noreferrer"
+                title={iconTitles.decree753}
                 aria-label="Test icon 2"
                 className="flex h-9 w-9 items-center justify-center rounded-sm border border-white bg-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg sm:h-10 sm:w-10"
               >
@@ -100,6 +117,7 @@ const Header = ({
                 href="https://www.geostat.ge/ka/modules/categories/655/msheneblobis-ghirebulebis-indeksi"
                 target="_blank"
                 rel="noopener noreferrer"
+                title={iconTitles.timeSeries}
                 aria-label="Test icon 3"
                 className="flex h-9 w-9 items-center justify-center rounded-sm border border-white bg-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg sm:h-10 sm:w-10"
               >

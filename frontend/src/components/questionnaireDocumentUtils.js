@@ -65,6 +65,7 @@ export const buildQuestionnaireDocumentContent = ({
 }) => {
   const t = getTranslator(language);
   const monthNames = language === "GE" ? monthsGe : monthsEn;
+  const questionnaire2DecreeNumber = "245";
 
   const getMonthLabel = (monthValue) => {
     const monthNumber = Number(monthValue);
@@ -82,8 +83,8 @@ export const buildQuestionnaireDocumentContent = ({
     questionnaire2: {
       title: t("ფასთა ინდექსაციის კალკულატორი", "Price Indexation Calculator"),
       description: t(
-        `გაცნობებთ, რომ საქართველოს მთავრობის #763 დადგენილებით განსაზღვრული ფასთა ინდექსაციის გამოყენების საფუძვლების, პრინციპებისა და წესის თანახმად, თქვენს მიერ შევსებულ ინფორმაციაზე დაყრდნობით (საბაზო პერიოდი - ${data.basePeriodText}) ფასთა ინდექსაციის კალკულატორის გამოყენებით მიღებული თანხები შეადგენს:`,
-        `Please be informed that according to the basics, principles and rules of using the price indexation defined by the #763 decree of the Government of Georgia, based on the filled information (base period - ${data.basePeriodText}), the reimbursement amount in certain periods amounted to:`,
+        `გაცნობებთ, რომ საქართველოს მთავრობის #${questionnaire2DecreeNumber} დადგენილებით განსაზღვრული ფასთა ინდექსაციის გამოყენების საფუძვლების, პრინციპებისა და წესის თანახმად, თქვენს მიერ შევსებულ ინფორმაციაზე დაყრდნობით (საბაზო პერიოდი - ${data.basePeriodText}) ფასთა ინდექსაციის კალკულატორის გამოყენებით მიღებული თანხები შეადგენს:`,
+        `Please be informed that according to the basics, principles and rules of using the price indexation defined by the #${questionnaire2DecreeNumber} decree of the Government of Georgia, based on the filled information (base period - ${data.basePeriodText}), the reimbursement amount in certain periods amounted to:`,
       ),
     },
     questionnaire3: {
@@ -126,6 +127,10 @@ export const buildQuestionnaireDocumentContent = ({
     },
     tableHeaders: {
       number: "N",
+      workPeriod: t(
+        "სამუშაოს დასრულების პერიოდი",
+        "End period of the work performed",
+      ),
       year: t("წელი", "Year"),
       month: t("თვე", "Month"),
       day: t("რიცხვი", "Date"),
@@ -301,14 +306,17 @@ export const printQuestionnaireDocument = ({
             <table class="report-table ${showMoneyColumn ? "" : "no-money-column"}">
               <thead>
                 <tr>
-                  <th>${escapeHtml(content.tableHeaders.number)}</th>
+                  <th rowspan="2">${escapeHtml(content.tableHeaders.number)}</th>
+                  <th colspan="3">${escapeHtml(content.tableHeaders.workPeriod)}</th>
+                  <th rowspan="2">${escapeHtml(content.tableHeaders.cost)}</th>
+                  ${showMoneyColumn ? `<th rowspan="2">${escapeHtml(content.tableHeaders.money)}</th>` : ""}
+                  <th rowspan="2">${escapeHtml(content.tableHeaders.index)}</th>
+                  <th rowspan="2">${escapeHtml(content.tableHeaders.result)}</th>
+                </tr>
+                <tr>
                   <th>${escapeHtml(content.tableHeaders.year)}</th>
                   <th>${escapeHtml(content.tableHeaders.month)}</th>
                   <th>${escapeHtml(content.tableHeaders.day)}</th>
-                  <th>${escapeHtml(content.tableHeaders.cost)}</th>
-                  ${showMoneyColumn ? `<th>${escapeHtml(content.tableHeaders.money)}</th>` : ""}
-                  <th>${escapeHtml(content.tableHeaders.index)}</th>
-                  <th>${escapeHtml(content.tableHeaders.result)}</th>
                 </tr>
               </thead>
               <tbody>
@@ -366,7 +374,7 @@ export const printQuestionnaireDocument = ({
             margin: 0;
             color: #111827;
             font-family: Arial, sans-serif;
-            font-size: 12px;
+            font-size: 13px;
             line-height: 1.45;
             background: #ffffff;
             -webkit-print-color-adjust: exact;
@@ -407,7 +415,7 @@ export const printQuestionnaireDocument = ({
 
           .info {
             width: 100%;
-            font-size: 11px;
+            font-size: 12px;
             border-collapse: collapse;
           }
 
@@ -436,7 +444,7 @@ export const printQuestionnaireDocument = ({
             text-align: justify;
             line-height: 2.5;
             text-indent: 30px;
-            font-size: 10px;
+            font-size: 11px;
             word-break: break-word;
           }
 
@@ -451,7 +459,7 @@ export const printQuestionnaireDocument = ({
 
           .doc-notes {
             margin-top: 8px;
-            font-size: 9px;
+            font-size: 10px;
             font-weight: 700;
             line-height: 1.5;
           }
@@ -463,7 +471,7 @@ export const printQuestionnaireDocument = ({
           .report-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 8px;
+            font-size: 9px;
             table-layout: fixed;
           }
 
@@ -481,7 +489,7 @@ export const printQuestionnaireDocument = ({
             color: #ffffff;
             font-weight: 700;
             text-align: center;
-            font-size: 7px;
+            font-size: 8px;
             line-height: 1.15;
             padding: 4px 5px;
             word-break: break-word;
