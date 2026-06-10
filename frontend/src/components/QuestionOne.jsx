@@ -75,6 +75,32 @@ const QuestionOne = ({
     "2022-04": t("აპრილი", "April"),
   };
 
+  const monthNames = {
+    "01": t("იანვარი", "January"),
+    "02": t("თებერვალი", "February"),
+    "03": t("მარტი", "March"),
+    "04": t("აპრილი", "April"),
+    "05": t("მაისი", "May"),
+    "06": t("ივნისი", "June"),
+    "07": t("ივლისი", "July"),
+    "08": t("აგვისტო", "August"),
+    "09": t("სექტემბერი", "September"),
+    "10": t("ოქტომბერი", "October"),
+    "11": t("ნოემბერი", "November"),
+    "12": t("დეკემბერი", "December"),
+  };
+
+  const getMonthLabelFromKey = (monthKey) => {
+    if (!monthKey) return "";
+
+    if (monthLabels[monthKey]) {
+      return monthLabels[monthKey];
+    }
+
+    const [, monthPart] = monthKey.split("-");
+    return monthNames[monthPart] || monthKey;
+  };
+
   const yearOptions = isQuestionnaireThreeMode
     ? Array.from({ length: 9 }, (_, i) => String(2027 + i))
     : ["2022", "2023", "2024", "2025", "2026"];
@@ -312,7 +338,7 @@ const QuestionOne = ({
     effectiveBasePeriod === "1"
       ? t("თებერვალი", "February")
       : effectiveBasePeriod === "2" && tenderMinus28MonthKey
-        ? monthLabels[tenderMinus28MonthKey] || tenderMinus28MonthKey
+        ? getMonthLabelFromKey(tenderMinus28MonthKey)
         : "";
 
   const basePeriodTextForDoc =
@@ -320,8 +346,8 @@ const QuestionOne = ({
       ? t("2022 წლის თებერვალი", "February 2022")
       : effectiveBasePeriod === "2" && tenderMinus28Date
         ? t(
-            `${tenderMinus28Date.getUTCFullYear()} წლის ${monthLabels[tenderMinus28MonthKey] || tenderMinus28MonthKey}`,
-            `${monthLabels[tenderMinus28MonthKey] || tenderMinus28MonthKey} ${tenderMinus28Date.getUTCFullYear()}`,
+            `${tenderMinus28Date.getUTCFullYear()} წლის ${getMonthLabelFromKey(tenderMinus28MonthKey)}`,
+            `${getMonthLabelFromKey(tenderMinus28MonthKey)} ${tenderMinus28Date.getUTCFullYear()}`,
           )
         : t("არ არის არჩეული", "Not selected");
 
@@ -743,7 +769,7 @@ const QuestionOne = ({
           </div>
         )}
 
-        {showBasePeriod && baseMonthText && (
+        {(showBasePeriod || isQuestionnaireThreeMode) && baseMonthText && (
           <div className="bpg_mrgvlovani_caps mt-5 inline-flex max-w-full items-center rounded-md border border-[#bfd6ff] bg-[#eef5ff] px-3 py-2 text-sm leading-5 text-[#01389c]">
             {`${t("საბაზო თვე", "Base Month")} - ${baseMonthText}`}
           </div>
@@ -1013,14 +1039,14 @@ const QuestionOne = ({
                 <div className="rounded-xl border border-[#d7e3ff] bg-white p-4">
                   <p className="bpg_mrgvlovani_caps text-xs font-bold text-[#334155]">
                     {t(
-                      "** მიმწოდებელი პასუხისმგებელია მის მიერ შეყვანილი ინფორმაციის სისწორეზე.",
-                      "** The supplier is responsible for the accuracy of the information entered.",
+                      "* მიმწოდებელი პასუხისმგებელია მის მიერ შეყვანილი ინფორმაციის სისწორეზე.",
+                      "* The supplier is responsible for the accuracy of the entered data.",
                     )}
                   </p>
                   <p className="bpg_mrgvlovani_caps mt-2 text-xs font-bold text-[#334155]">
                     {t(
-                      "** შემსყიდველი ვალდებულია ანგარიშსწორებამდე გადაამოწმოს მიმწოდებლის მიერ შევსებული მონაცემების სისწორე",
-                      "** The purchaser is obliged to verify the accuracy of the data entered by the supplier before settlement",
+                      "* შემსყიდველი ვალდებულია ანგარიშსწორებამდე გადაამოწმოს მიმწოდებლის მიერ შევსებული მონაცემების სისწორე",
+                      "* The purchaser is obligated to verify the accuracy of the data provided by the supplier before the reimbursement verify the accuracy of the data entered by the supplier before settlement",
                     )}
                   </p>
                   <div className="mt-4 flex items-center justify-between rounded-lg border border-[#d7e3ff] bg-[#f8fbff] px-4 py-3">
@@ -1263,8 +1289,8 @@ const QuestionOne = ({
                         className="bpg_mrgvlovani_caps border-0 pt-2 text-left text-xs font-bold"
                       >
                         {t(
-                          "** მიმწოდებელი პასუხისმგებელია მის მიერ შეყვანილი ინფორმაციის სისწორეზე.",
-                          "** The supplier is responsible for the accuracy of the information entered.",
+                          "* მიმწოდებელი პასუხისმგებელია მის მიერ შეყვანილი ინფორმაციის სისწორეზე.",
+                          "* The supplier is responsible for the accuracy of the entered data.",
                         )}
                       </td>
                     </tr>
@@ -1274,8 +1300,8 @@ const QuestionOne = ({
                         className="bpg_mrgvlovani_caps border-0 pb-2 text-left text-xs font-bold"
                       >
                         {t(
-                          "** შემსყიდველი ვალდებულია ანგარიშსწორებამდე გადაამოწმოს მიმწოდებლის მიერ შევსებული მონაცემების სისწორე",
-                          "** The purchaser is obliged to verify the accuracy of the data entered by the supplier before settlement",
+                          "* შემსყიდველი ვალდებულია ანგარიშსწორებამდე გადაამოწმოს მიმწოდებლის მიერ შევსებული მონაცემების სისწორე",
+                          "* The purchaser is obligated to verify the accuracy of the data provided by the supplier before the reimbursement verify the accuracy of the data entered by the supplier before settlement",
                         )}
                       </td>
                     </tr>

@@ -160,11 +160,11 @@ export const buildQuestionnaireDocumentContent = ({
     notes: [
       t(
         "** მიმწოდებელი პასუხისმგებელია მის მიერ შეყვანილი ინფორმაციის სისწორეზე.",
-        "** The supplier is responsible for the accuracy of the information entered.",
+        "** The supplier is responsible for the accuracy of the entered data.",
       ),
       t(
         "** შემსყიდველი ვალდებულია ანგარიშსწორებამდე გადაამოწმოს მიმწოდებლის მიერ შევსებული მონაცემების სისწორე",
-        "** The purchaser is obliged to verify the accuracy of the data entered by the supplier before settlement.",
+        "** The purchaser is obligated to verify the accuracy of the data provided by the supplier before the reimbursement verify the accuracy of the data entered by the supplier before settlement.",
       ),
     ],
     tableRows: (data.tableRows || []).map((row) => ({

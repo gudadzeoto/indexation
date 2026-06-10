@@ -23,12 +23,12 @@ const Header = ({
     {
       id: 2,
       labelGe: "დადგენილება N245 გარდამავალი",
-      labelEn: "Decree N245 Transitional",
+      labelEn: "Resolution N245 Transitional",
     },
     {
       id: 3,
       labelGe: "დადგენილება N245 მუდმივი",
-      labelEn: "Decree N245 Permanent",
+      labelEn: "Resolution N245 Permanent",
     },
   ];
 
