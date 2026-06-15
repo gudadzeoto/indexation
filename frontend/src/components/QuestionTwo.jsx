@@ -379,29 +379,42 @@ const QuestionTwo = ({ language = "GE" }) => {
         : t("არ არის არჩეული", "Not selected");
 
   const calculateConstructionFormula = (bitumRatio, dieselRatio, money) => {
-    const fixed = (Number(fixedCoefficient.replace(",", ".")) || 0) / 100;
-    const bitumen = (Number(bitumenProportion.replace(",", ".")) || 0) / 100;
-    const diesel = (Number(dieselProportion.replace(",", ".")) || 0) / 100;
+    const fixedInput = Number(fixedCoefficient.replace(",", ".")) || 0;
+    const bitumenInput = Number(bitumenProportion.replace(",", ".")) || 0;
+    const dieselInput = Number(dieselProportion.replace(",", ".")) || 0;
+
+    const fixed = fixedInput / 100;
+    const bitumen = bitumenInput / 100;
+    const diesel = dieselInput / 100;
+    const bitumenPart = bitumen * bitumRatio;
+    const dieselPart = diesel * dieselRatio;
 
     // PN = fixed/100 + (bitumen/100 * bitum_ratio) + (diesel/100 * diesel_ratio)
-    const pn = fixed + bitumen * bitumRatio + diesel * dieselRatio;
+    const pn = fixed + bitumenPart + dieselPart;
     const rawResult = money * pn - money;
     const cappedResult = clampResultByMoneyLimit(rawResult, money);
 
     console.log("[QuestionTwo][Radio1] PN calculation", {
       formula:
         "pn = fixed/100 + (bitumen/100 * (bitum_row/bitum_base)) + (diesel/100 * (diesel_row/diesel_base))",
+      expandedPnFormula: `${fixedInput}/100 + (${bitumenInput}/100 * ${bitumRatio}) + (${dieselInput}/100 * ${dieselRatio}) = ${pn}`,
       resultFormula: "result = money * pn - money",
+      fixedInput,
+      bitumenInput,
+      dieselInput,
       fixed,
       bitumen,
       diesel,
       bitumRatio,
       dieselRatio,
+      bitumenPart,
+      dieselPart,
       pn,
+      pnRounded3: Number(pn.toFixed(3)),
       money,
       rawResult,
       cappedResult,
-      expandedResult: `${money} * ${pn} - ${money} = ${rawResult}`,
+      expandedResult: `${pn} * ${money} - ${money} = ${rawResult}`,
     });
 
     return {
@@ -426,7 +439,7 @@ const QuestionTwo = ({ language = "GE" }) => {
       money,
       rawResult,
       cappedResult,
-      expandedResult: `${money} * ${ratio} - ${money} = ${rawResult}`,
+      expandedResult: `${ratio} * ${money} - ${money} = ${rawResult}`,
     });
 
     return {

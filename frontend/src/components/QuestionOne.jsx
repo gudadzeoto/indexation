@@ -34,6 +34,8 @@ const QuestionOne = ({
   const [searching, setSearching] = useState(false);
   const [localContractNumber, setLocalContractNumber] = useState("");
   const [localCustomer, setLocalCustomer] = useState("");
+  const [isContractDurationOverTwelveMonths, setIsContractDurationOverTwelveMonths] =
+    useState(false);
   const [basePeriod, setBasePeriod] = useState("");
   const isQuestionnaireThreeMode = questionnaireMode === "questionnaire3";
   const effectiveBasePeriod = isQuestionnaireThreeMode ? "2" : basePeriod;
@@ -163,7 +165,8 @@ const QuestionOne = ({
   const isBasePeriodDisabled =
     !companyData || !contractNumber.trim() || !customer.trim();
   const canShowQuestionnaireThreeSections =
-    !isQuestionnaireThreeMode || !isBasePeriodDisabled;
+    !isQuestionnaireThreeMode ||
+    (!isBasePeriodDisabled && isContractDurationOverTwelveMonths);
 
   const canShowExtraSection =
     !hideExtraUntilBaseFieldsFilled || !isBasePeriodDisabled;
@@ -653,6 +656,27 @@ const QuestionOne = ({
           </div>
         </div>
 
+        {isQuestionnaireThreeMode && (
+          <div className="mt-4 max-w-2xl rounded-xl border border-[#bfd6ff] bg-[#f8fbff] px-4 py-3 shadow-sm">
+            <label className="flex cursor-pointer items-start gap-3">
+              <input
+                type="checkbox"
+                checked={isContractDurationOverTwelveMonths}
+                onChange={(e) =>
+                  setIsContractDurationOverTwelveMonths(e.target.checked)
+                }
+                className="mt-0.5 h-4 w-4 cursor-pointer accent-[#01389c]"
+              />
+              <span className="bpg_mrgvlovani_caps text-sm font-semibold text-[#01389c]">
+                {t(
+                  "ხელშეკრულების ვადა შეადგენს 12 თვეზე მეტს",
+                  "The contract term is more than 12 months.",
+                )}
+              </span>
+            </label>
+          </div>
+        )}
+
         {showBasePeriod && (
           <>
             <p className="bpg_mrgvlovani_caps mt-6 font-bold">
@@ -769,7 +793,9 @@ const QuestionOne = ({
           </div>
         )}
 
-        {(showBasePeriod || isQuestionnaireThreeMode) && baseMonthText && (
+        {((!isQuestionnaireThreeMode && showBasePeriod) ||
+          (isQuestionnaireThreeMode && canShowQuestionnaireThreeSections)) &&
+          baseMonthText && (
           <div className="bpg_mrgvlovani_caps mt-5 inline-flex max-w-full items-center rounded-md border border-[#bfd6ff] bg-[#eef5ff] px-3 py-2 text-sm leading-5 text-[#01389c]">
             {`${t("საბაზო თვე", "Base Month")} - ${baseMonthText}`}
           </div>

@@ -48,6 +48,10 @@ const Header = ({
       language === "GE"
         ? "„საქართველოს მთავრობის განკარგულება №753“"
         : '"Decree of the Government of Georgia No. 753"',
+    decree245:
+      language === "GE"
+        ? "„საქართველოს მთავრობის განკარგულება №245“"
+        : '"Decree of the Government of Georgia No. 245"',
     timeSeries:
       language === "GE"
         ? "მშენებლობის ღირებულების ინდექსის დროითი მწრკივები"
@@ -100,10 +104,18 @@ const Header = ({
                 />
               </a>
               <a
-                href="https://matsne.gov.ge/ka/document/view/5458532?publication=0"
+                href={
+                  activeQuestion === 2 || activeQuestion === 3
+                    ? "https://matsne.gov.ge/ka/document/download/6883523/0/ge/pdf"
+                    : "https://matsne.gov.ge/ka/document/view/5458532?publication=0"
+                }
                 target="_blank"
                 rel="noopener noreferrer"
-                title={iconTitles.decree753}
+                title={
+                  activeQuestion === 2 || activeQuestion === 3
+                    ? iconTitles.decree245
+                    : iconTitles.decree753
+                }
                 aria-label="Test icon 2"
                 className="flex h-9 w-9 items-center justify-center rounded-sm border border-white bg-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg sm:h-10 sm:w-10"
               >
