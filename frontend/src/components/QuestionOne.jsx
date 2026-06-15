@@ -55,6 +55,7 @@ const QuestionOne = ({
   ]);
   const [confirmed, setConfirmed] = useState(false);
   const [isDocModalOpen, setIsDocModalOpen] = useState(false);
+  const [documentSequence, setDocumentSequence] = useState("-");
   const [rowTotal, setRowTotal] = useState("0.00");
   const [indexesData, setIndexesData] = useState({});
 
@@ -1386,9 +1387,12 @@ const QuestionOne = ({
                           })),
                         }),
                       });
+                      const payload = await res.json().catch(() => null);
+
                       if (!res.ok) {
-                        const err = await res.json().catch(() => ({}));
-                        console.error("Report insert error:", err);
+                        console.error("Report insert error:", payload || {});
+                      } else if (payload?.printnum != null) {
+                        setDocumentSequence(String(payload.printnum));
                       }
                     } catch (err) {
                       console.error("Report insert fetch error:", err);
@@ -1417,7 +1421,7 @@ const QuestionOne = ({
           contractNumber,
           customer,
           createdAt: new Date().toISOString(),
-          documentSequence: "-",
+          documentSequence,
           basePeriodText: basePeriodTextForDoc,
           workCompletionText: workCompletionTextForDoc,
           tableRows,

@@ -19,6 +19,7 @@ const QuestionTwoDocumentGeneration = ({
 }) => {
   const t = (ge, en) => (language === "GE" ? ge : en);
   const [isDocModalOpen, setIsDocModalOpen] = useState(false);
+  const [documentSequence, setDocumentSequence] = useState("-");
   const isRadio1 = workType === "1";
 
   const handleGenerateDocument = async () => {
@@ -43,9 +44,12 @@ const QuestionTwoDocumentGeneration = ({
           })),
         }),
       });
+      const payload = await res.json().catch(() => null);
+
       if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        console.error("Report insert error:", err);
+        console.error("Report insert error:", payload || {});
+      } else if (payload?.printnum != null) {
+        setDocumentSequence(String(payload.printnum));
       }
     } catch (err) {
       console.error("Report insert fetch error:", err);
@@ -94,7 +98,7 @@ const QuestionTwoDocumentGeneration = ({
           customer,
           workType,
           createdAt: new Date().toISOString(),
-          documentSequence: "-",
+          documentSequence,
           basePeriodText: baseMonthForDoc || t("არ არის არჩეული", "Not selected"),
           tableRows,
           rowTotal,

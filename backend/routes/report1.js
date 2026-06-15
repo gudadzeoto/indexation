@@ -28,11 +28,20 @@ router.post("/", async (req, res) => {
     const pool = new sql.ConnectionPool(indexationConfig);
     await pool.connect();
 
+    const nextPrintNumResult = await pool
+      .request()
+      .query(`
+        SELECT ISNULL(MAX([printnum]), 0) + 1 AS nextPrintNum
+        FROM [${process.env.DB_NAME_INDEXATION}].[dbo].[report_1] WITH (UPDLOCK, HOLDLOCK)
+      `);
+
+    const printnum = Number(nextPrintNumResult.recordset?.[0]?.nextPrintNum) || 1;
+
     for (let i = 0; i < rows.length; i++) {
       const row = rows[i];
       const request = pool.request();
 
-      request.input("printnum", sql.Int, i + 1);
+      request.input("printnum", sql.Int, printnum);
       request.input("contractnum", sql.NVarChar(500), contractnum || null);
       request.input("customer", sql.NVarChar(500), customer || null);
       request.input("year", sql.Int, row.year ? Number(row.year) : null);
@@ -88,7 +97,7 @@ router.post("/", async (req, res) => {
     }
 
     pool.close();
-    res.json({ success: true, inserted: rows.length });
+    res.json({ success: true, inserted: rows.length, printnum });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
