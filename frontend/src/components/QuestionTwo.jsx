@@ -354,11 +354,6 @@ const QuestionTwo = ({ language = "GE" }) => {
     bitumenProportion.trim() !== "" &&
     dieselProportion.trim() !== "";
 
-  const clampResultByMoneyLimit = (resultValue, moneyValue) => {
-    const maxAllowed = moneyValue * 0.1;
-    return resultValue > maxAllowed ? maxAllowed : resultValue;
-  };
-
   const baseMonthKeyForCalc =
     indexationPeriod === "3"
       ? "2025-12"
@@ -392,7 +387,6 @@ const QuestionTwo = ({ language = "GE" }) => {
     // PN = fixed/100 + (bitumen/100 * bitum_ratio) + (diesel/100 * diesel_ratio)
     const pn = fixed + bitumenPart + dieselPart;
     const rawResult = money * pn - money;
-    const cappedResult = clampResultByMoneyLimit(rawResult, money);
 
     console.log("[QuestionTwo][Radio1] PN calculation", {
       formula:
@@ -413,7 +407,6 @@ const QuestionTwo = ({ language = "GE" }) => {
       pnRounded3: Number(pn.toFixed(3)),
       money,
       rawResult,
-      cappedResult,
       expandedResult: `${pn} * ${money} - ${money} = ${rawResult}`,
     });
 
@@ -421,7 +414,7 @@ const QuestionTwo = ({ language = "GE" }) => {
       money: "",
       index: "",
       pn: pn.toFixed(3),
-      result: cappedResult.toFixed(2),
+      result: rawResult.toFixed(2),
     };
   };
 
@@ -429,7 +422,6 @@ const QuestionTwo = ({ language = "GE" }) => {
     // QuestionOne formula for repair works (workType === "2")
     const indexValue = ratio * 100;
     const rawResult = money * ratio - money;
-    const cappedResult = clampResultByMoneyLimit(rawResult, money);
 
     console.log("[QuestionTwo][Radio2] Q1-style calculation", {
       formula: "result = money * (rowIdx/baseIdx) - money",
@@ -438,7 +430,6 @@ const QuestionTwo = ({ language = "GE" }) => {
       indexValue,
       money,
       rawResult,
-      cappedResult,
       expandedResult: `${ratio} * ${money} - ${money} = ${rawResult}`,
     });
 
@@ -446,7 +437,7 @@ const QuestionTwo = ({ language = "GE" }) => {
       money: money.toFixed(2),
       index: indexValue.toFixed(2),
       pn: "",
-      result: cappedResult.toFixed(2),
+      result: rawResult.toFixed(2),
     };
   };
 
