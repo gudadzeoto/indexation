@@ -471,14 +471,14 @@ export const printQuestionnaireDocument = ({
           .report-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 9px;
-            table-layout: fixed;
+            font-size: 8px;
+            table-layout: auto;
           }
 
           .report-table th,
           .report-table td {
             border: 1px solid #9ca3af;
-            padding: 6px 8px;
+            padding: 4px 5px;
             vertical-align: middle;
             page-break-inside: avoid;
             break-inside: avoid;
@@ -489,10 +489,10 @@ export const printQuestionnaireDocument = ({
             color: #ffffff;
             font-weight: 700;
             text-align: center;
-            font-size: 8px;
+            font-size: 7.5px;
             line-height: 1.15;
-            padding: 4px 5px;
-            word-break: break-word;
+            padding: 4px 4px;
+            overflow-wrap: break-word;
           }
 
           .report-table thead {
@@ -504,48 +504,24 @@ export const printQuestionnaireDocument = ({
             break-inside: avoid;
           }
 
-          .report-table th:nth-child(1),
           .report-table td:nth-child(1) {
-            width: 6%;
             text-align: center;
+            white-space: nowrap;
           }
 
-          .report-table th:nth-child(2),
           .report-table td:nth-child(2) {
-            width: 10%;
             text-align: center;
+            white-space: nowrap;
           }
 
-          .report-table th:nth-child(3),
           .report-table td:nth-child(3) {
-            width: 16%;
             text-align: center;
+            white-space: nowrap;
           }
 
-          .report-table th:nth-child(4),
           .report-table td:nth-child(4) {
-            width: 10%;
             text-align: center;
-          }
-
-          .report-table th:nth-child(5),
-          .report-table td:nth-child(5),
-          .report-table th:nth-child(6),
-          .report-table td:nth-child(6),
-          .report-table th:nth-child(7),
-          .report-table td:nth-child(7),
-          .report-table th:nth-child(8),
-          .report-table td:nth-child(8) {
-            width: 14.5%;
-          }
-
-          .report-table.no-money-column th:nth-child(5),
-          .report-table.no-money-column td:nth-child(5),
-          .report-table.no-money-column th:nth-child(6),
-          .report-table.no-money-column td:nth-child(6),
-          .report-table.no-money-column th:nth-child(7),
-          .report-table.no-money-column td:nth-child(7) {
-            width: 19.33%;
+            white-space: nowrap;
           }
 
           .text-right {
@@ -555,12 +531,13 @@ export const printQuestionnaireDocument = ({
 
           .total-label {
             font-weight: 700;
-            text-align: right;
+            text-align: right !important;
           }
 
           .total-value {
             color: #01389c;
             font-weight: 700;
+            text-align: right !important;
           }
 
           @media print {
