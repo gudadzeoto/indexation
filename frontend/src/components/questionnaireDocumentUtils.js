@@ -164,7 +164,7 @@ export const buildQuestionnaireDocumentContent = ({
       ),
       t(
         "** შემსყიდველი ვალდებულია ანგარიშსწორებამდე გადაამოწმოს მიმწოდებლის მიერ შევსებული მონაცემების სისწორე",
-        "** The purchaser is obligated to verify the accuracy of the data provided by the supplier before the reimbursement verify the accuracy of the data entered by the supplier before settlement.",
+        "** The purchaser is obligated to verify the accuracy of the data provided by the supplier before the reimbursement.",
       ),
     ],
     tableRows: (data.tableRows || []).map((row) => ({
