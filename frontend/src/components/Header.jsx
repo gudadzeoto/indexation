@@ -90,7 +90,11 @@ const Header = ({
             {/* Icons & Language Switch */}
             <div className="flex w-full flex-wrap items-center justify-center gap-2 self-center sm:gap-3 md:justify-end xl:w-auto">
               <a
-                href="https://www.geostat.ge/media/61536/CCI-Metodologia.pdf"
+                href={
+                  language === "GE"
+                    ? "https://www.geostat.ge/media/80128/CCI_Methodology_GE.html"
+                    : "https://www.geostat.ge/media/80171/CCI_Methodology_ENG.html"
+                }
                 target="_blank"
                 rel="noopener noreferrer"
                 title={iconTitles.methodology}
