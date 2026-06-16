@@ -17,7 +17,7 @@ const Header = ({
   const questionnaireButtons = [
     {
       id: 1,
-      labelGe: "დადგენილება N753",
+      labelGe: "განკარგულება N753",
       labelEn: "Decree N753",
     },
     {
