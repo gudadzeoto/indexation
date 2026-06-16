@@ -159,7 +159,7 @@ export const buildQuestionnaireDocumentContent = ({
     },
     notes: [
       t(
-        "** მიმწოდებელი პასუხისმგებელია მის მიერ შეყვანილი ინფორმაციის სისწორეზე.",
+        "* მიმწოდებელი პასუხისმგებელია მის მიერ შეყვანილი ინფორმაციის სისწორეზე.",
         "** The supplier is responsible for the accuracy of the entered data.",
       ),
       t(

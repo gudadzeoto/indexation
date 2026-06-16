@@ -1072,7 +1072,7 @@ const QuestionOne = ({
                   </p>
                   <p className="bpg_mrgvlovani_caps mt-2 text-xs font-bold text-[#334155]">
                     {t(
-                      "* შემსყიდველი ვალდებულია ანგარიშსწორებამდე გადაამოწმოს მიმწოდებლის მიერ შევსებული მონაცემების სისწორე",
+                      "** შემსყიდველი ვალდებულია ანგარიშსწორებამდე გადაამოწმოს მიმწოდებლის მიერ შევსებული მონაცემების სისწორე",
                       "* The purchaser is obligated to verify the accuracy of the data provided by the supplier before the reimbursement verify the accuracy of the data entered by the supplier before settlement",
                     )}
                   </p>
@@ -1327,7 +1327,7 @@ const QuestionOne = ({
                         className="bpg_mrgvlovani_caps border-0 pb-2 text-left text-xs font-bold"
                       >
                         {t(
-                          "* შემსყიდველი ვალდებულია ანგარიშსწორებამდე გადაამოწმოს მიმწოდებლის მიერ შევსებული მონაცემების სისწორე",
+                          "** შემსყიდველი ვალდებულია ანგარიშსწორებამდე გადაამოწმოს მიმწოდებლის მიერ შევსებული მონაცემების სისწორე",
                           "* The purchaser is obligated to verify the accuracy of the data provided by the supplier before the reimbursement verify the accuracy of the data entered by the supplier before settlement",
                         )}
                       </td>
