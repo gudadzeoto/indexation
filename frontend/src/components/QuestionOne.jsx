@@ -6,7 +6,7 @@ import removeIcon from "../assets/images/remove.png";
 import plusIcon from "../assets/images/plus.png";
 import docs from "../assets/images/google-docs.png";
 
-const API_BASE = import.meta.env.VITE_API_BASE || "http://192.168.0.74:5002/api";
+const API_BASE = import.meta.env.VITE_API_BASE || "https://indexation-api.geostat.ge";
 
 const QuestionOne = ({
   language = "GE",
